@@ -282,17 +282,14 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
       return;
     }
 
-    setStep("success");
-
+    // ✅ success: go to done screen (this matches your FlowStep type)
+    setStep("done");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (err) {
     console.error("Submit failed:", err);
     alert("Network error. Please try again.");
   }
 };
-
-    setStep('done');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const serviceOptions = bookingData.category === 'premium'
     ? PREMIUM_SERVICES
