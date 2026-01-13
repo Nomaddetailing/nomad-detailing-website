@@ -270,9 +270,7 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
 
     const res = await fetch("/api/bookings", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
@@ -284,29 +282,13 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
       return;
     }
 
-    // ONLY HERE show success UI / navigate
-    // example:
-    // navigate("/booking/success");
-    setStep("success"); // or whatever your success trigger is
+    setStep("success");
 
   } catch (err) {
     console.error("Submit failed:", err);
     alert("Network error. Please try again.");
   }
 };
-
-
-    try {
-      const endpoint = "/api/bookings";
-await fetch(endpoint, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(payload),
-});
-
-    } catch (e) {
-      console.error('Booking submission error:', e);
-    }
 
     setStep('done');
     window.scrollTo({ top: 0, behavior: 'smooth' });
