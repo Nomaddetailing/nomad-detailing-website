@@ -239,23 +239,62 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   };
 
   const submit = async () => {
+  try {
     const payload = {
       service_category: bookingData.category,
       service_name: bookingData.service,
       service_variant: bookingData.variant || null,
+
       vehicle_type: bookingData.vehicleType,
       vehicle_condition: bookingData.condition,
+
       service_area: bookingData.area,
       property_type: bookingData.propertyType,
+
       preferred_date: bookingData.preferredDate,
       preferred_time_window: bookingData.preferredTime,
+
       customer_name: bookingData.name,
       customer_whatsapp: bookingData.phone,
       customer_email: bookingData.email || null,
       notes: bookingData.notes || null,
-      source: preset?.service ? 'services_page' : preset?.category ? 'homepage_category' : 'direct_booking',
+
+      source: preset?.service
+        ? "services_page"
+        : preset?.category
+        ? "homepage_category"
+        : "direct_booking",
+
       created_at: new Date().toISOString(),
     };
+
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      console.error("Booking API error:", data);
+      alert(data?.error || "Booking submission failed. Please try again.");
+      return;
+    }
+
+    // ONLY HERE show success UI / navigate
+    // example:
+    // navigate("/booking/success");
+    setStep("success"); // or whatever your success trigger is
+
+  } catch (err) {
+    console.error("Submit failed:", err);
+    alert("Network error. Please try again.");
+  }
+};
+
 
     try {
       const endpoint = import.meta.env.VITE_BOOKING_ENDPOINT as string | undefined;
