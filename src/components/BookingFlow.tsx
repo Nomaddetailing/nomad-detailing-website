@@ -297,16 +297,13 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
 
 
     try {
-      const endpoint = import.meta.env.VITE_BOOKING_ENDPOINT as string | undefined;
-      if (endpoint) {
-        await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        console.log('Booking submitted (no endpoint configured):', payload);
-      }
+      const endpoint = "/api/bookings";
+await fetch(endpoint, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+});
+
     } catch (e) {
       console.error('Booking submission error:', e);
     }
