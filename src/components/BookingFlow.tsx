@@ -592,7 +592,7 @@ notes: finalNotes || null,             // includes "Other area" if needed
               </div>
 
               <div className="space-y-6">
-// ServiceArea ComboBox update:
+
 <div className="space-y-2">
   <label className="block">Service Area (Klang Valley) *</label>
 
