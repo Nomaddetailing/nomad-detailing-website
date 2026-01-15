@@ -4,6 +4,7 @@ import { Section } from './ui/Section';
 import { PrimaryButton } from './ui/PrimaryButton';
 import { WhatsAppButton } from './ui/WhatsAppButton';
 import type { BookingPreset } from '../App';
+import { Combobox } from "@headlessui/react";
 
 interface BookingFlowProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
@@ -25,7 +26,8 @@ interface BookingData {
   condition: string;
 
   // Location & schedule
-  area: string;
+  area: ServiceArea | "";       // enforce only allowed values
+  areaOther: string;            // store details if Others
   propertyType: string;
   preferredDate: string;
   preferredTime: string;
@@ -72,6 +74,17 @@ const CERAMIC_VARIANTS = [
   { value: '3-year', title: '3-Year Protection' },
 ];
 
+const SERVICE_AREAS = [
+  "Kuala Lumpur",
+  "Petaling Jaya",
+  "Subang",
+  "Cheras",
+  "Puchong",
+  "Others",
+] as const;
+
+type ServiceArea = (typeof SERVICE_AREAS)[number];
+
 const MAINTENANCE_SERVICES = [
   {
     value: 'maintenance_wash',
@@ -115,7 +128,8 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
     variant: '',
     vehicleType: '',
     condition: '',
-    area: '',
+    area: "",
+areaOther: "",
     propertyType: '',
     preferredDate: '',
     preferredTime: '',
@@ -126,6 +140,16 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   });
 
   const [showCeramicVariants, setShowCeramicVariants] = useState(false);
+
+    // Service Area autocomplete state
+  const [areaQuery, setAreaQuery] = useState("");
+
+  const filteredAreas =
+    areaQuery.trim() === ""
+      ? SERVICE_AREAS
+      : SERVICE_AREAS.filter((a) =>
+          a.toLowerCase().includes(areaQuery.toLowerCase())
+        );
 
   // Initialize from entry preset.
   useEffect(() => {
@@ -200,12 +224,13 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
       case 'vehicle':
         return bookingData.vehicleType !== '' && bookingData.condition !== '';
       case 'location':
-        return (
-          bookingData.area !== '' &&
-          bookingData.propertyType !== '' &&
-          bookingData.preferredDate !== '' &&
-          bookingData.preferredTime !== ''
-        );
+  return (
+    bookingData.area !== '' &&
+    bookingData.propertyType !== '' &&
+    bookingData.preferredDate !== '' &&
+    bookingData.preferredTime !== '' &&
+    (bookingData.area !== 'Others' || bookingData.areaOther.trim() !== '')
+  );
       case 'contact':
         return bookingData.name !== '' && bookingData.phone !== '';
       default:
@@ -237,6 +262,10 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
     setStep(prev);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+const finalNotes =
+  bookingData.area === "Others" && bookingData.areaOther.trim()
+    ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
+    : bookingData.notes;
 
   const submit = async () => {
   try {
@@ -248,7 +277,8 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
       vehicle_type: bookingData.vehicleType,
       vehicle_condition: bookingData.condition,
 
-      service_area: bookingData.area,
+      service_area: bookingData.area,        // always a valid Airtable option
+notes: finalNotes || null,             // includes "Other area" if needed
       property_type: bookingData.propertyType,
 
       preferred_date: bookingData.preferredDate,
@@ -563,14 +593,76 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="block">Service Area (Klang Valley) *</label>
-                  <input
-                    value={bookingData.area}
-                    onChange={(e) => update('area', e.target.value)}
-                    placeholder="e.g. Mont Kiara, Bangsar, PJ, Shah Alam"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
-                  />
-                </div>
+  <label className="block">Service Area (Klang Valley) *</label>
+
+  {/* Search input */}
+  <input
+    value={bookingData.area ? bookingData.area : areaQuery}
+    onChange={(e) => {
+      // user is typing: we are NOT setting bookingData.area yet
+      setAreaQuery(e.target.value);
+      // if they type again after selecting, clear the selection until they pick again
+      if (bookingData.area) {
+        setBookingData((prev) => ({ ...prev, area: "" }));
+      }
+    }}
+    placeholder="Type to search (e.g. PJ, KL, Subang)"
+    className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
+  />
+
+  {/* Suggestions list */}
+  {areaQuery.trim() !== "" && (
+    <div className="mt-2 rounded-lg border border-border bg-card overflow-hidden">
+      {filteredAreas.length === 0 ? (
+        <div className="px-4 py-3 text-sm text-muted-foreground">
+          No matches. Please select “Others”.
+        </div>
+      ) : (
+        filteredAreas.map((a) => (
+          <button
+            key={a}
+            type="button"
+            onClick={() => {
+              // user selects a valid Airtable-safe option
+              setBookingData((prev) => ({
+                ...prev,
+                area: a,
+                areaOther: a === "Others" ? prev.areaOther : "", // clear if not Others
+              }));
+              setAreaQuery(""); // close suggestions
+            }}
+            className="w-full text-left px-4 py-3 hover:bg-primary/10 transition"
+          >
+            {a}
+          </button>
+        ))
+      )}
+    </div>
+  )}
+
+  {/* If Others selected, show an extra input */}
+  {bookingData.area === "Others" && (
+    <div className="mt-3 space-y-2">
+      <label className="block text-sm text-muted-foreground">
+        Please specify your area *
+      </label>
+      <input
+        value={bookingData.areaOther}
+        onChange={(e) =>
+          setBookingData((prev) => ({ ...prev, areaOther: e.target.value }))
+        }
+        placeholder="e.g. Cyberjaya, Putrajaya, Setia Alam"
+        className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
+      />
+    </div>
+  )}
+
+  {/* Small helper line */}
+  <p className="text-xs text-muted-foreground">
+    Select from the suggestions to continue (required for booking).
+  </p>
+</div>
+
 
                 <div className="space-y-2">
                   <label className="block">Property Type *</label>
