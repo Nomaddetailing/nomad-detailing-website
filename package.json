@@ -48,7 +48,8 @@
           "recharts": "^2.15.2",
           "sonner": "^2.0.3",
           "tailwind-merge": "*",
-          "vaul": "^1.1.2"
+          "vaul": "^1.1.2",
+        "@headlessui/react": "^1.7.19"
       },
       "devDependencies": {
           "@vercel/node": "^3.2.24",
