@@ -592,75 +592,65 @@ notes: finalNotes || null,             // includes "Other area" if needed
               </div>
 
               <div className="space-y-6">
-                <div className="space-y-2">
+// ServiceArea ComboBox update:
+<div className="space-y-2">
   <label className="block">Service Area (Klang Valley) *</label>
 
-  {/* Search input */}
-  <input
-    value={bookingData.area ? bookingData.area : areaQuery}
-    onChange={(e) => {
-      // user is typing: we are NOT setting bookingData.area yet
-      setAreaQuery(e.target.value);
-      // if they type again after selecting, clear the selection until they pick again
-      if (bookingData.area) {
-        setBookingData((prev) => ({ ...prev, area: "" }));
-      }
+  <Combobox
+    value={bookingData.area}
+    onChange={(val: ServiceArea) => {
+      update("area", val);
+      // Clear "other" details when not Others
+      if (val !== "Others") setBookingData((p) => ({ ...p, areaOther: "" }));
     }}
-    placeholder="Type to search (e.g. PJ, KL, Subang)"
-    className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
-  />
+  >
+    <div className="relative">
+      <Combobox.Input
+        className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
+        displayValue={(val: any) => val || ""}
+        onChange={(event) => setAreaQuery(event.target.value)}
+        placeholder="Type to search (e.g. PJ, Subang, KL)"
+      />
 
-  {/* Suggestions list */}
-  {areaQuery.trim() !== "" && (
-    <div className="mt-2 rounded-lg border border-border bg-card overflow-hidden">
-      {filteredAreas.length === 0 ? (
-        <div className="px-4 py-3 text-sm text-muted-foreground">
-          No matches. Please select “Others”.
-        </div>
-      ) : (
-        filteredAreas.map((a) => (
-          <button
-            key={a}
-            type="button"
-            onClick={() => {
-              // user selects a valid Airtable-safe option
-              setBookingData((prev) => ({
-                ...prev,
-                area: a,
-                areaOther: a === "Others" ? prev.areaOther : "", // clear if not Others
-              }));
-              setAreaQuery(""); // close suggestions
-            }}
-            className="w-full text-left px-4 py-3 hover:bg-primary/10 transition"
-          >
-            {a}
-          </button>
-        ))
-      )}
+      <Combobox.Options className="absolute z-50 mt-2 w-full max-h-60 overflow-auto rounded-lg border border-border bg-card shadow-lg">
+        {filteredAreas.length === 0 ? (
+          <div className="px-4 py-3 text-sm text-muted-foreground">
+            No matches. Please select “Others”.
+          </div>
+        ) : (
+          filteredAreas.map((a) => (
+            <Combobox.Option
+              key={a}
+              value={a}
+              className={({ active }) =>
+                `cursor-pointer px-4 py-3 ${
+                  active ? "bg-primary/10" : ""
+                }`
+              }
+            >
+              {a}
+            </Combobox.Option>
+          ))
+        )}
+      </Combobox.Options>
     </div>
-  )}
+  </Combobox>
 
-  {/* If Others selected, show an extra input */}
   {bookingData.area === "Others" && (
     <div className="mt-3 space-y-2">
       <label className="block text-sm text-muted-foreground">
-        Please specify your area *
+        Please specify your area (for Ops reference)
       </label>
       <input
         value={bookingData.areaOther}
         onChange={(e) =>
-          setBookingData((prev) => ({ ...prev, areaOther: e.target.value }))
+          setBookingData((p) => ({ ...p, areaOther: e.target.value }))
         }
-        placeholder="e.g. Cyberjaya, Putrajaya, Setia Alam"
+        placeholder="e.g. Setia Alam, Cyberjaya, Putrajaya"
         className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
       />
     </div>
   )}
-
-  {/* Small helper line */}
-  <p className="text-xs text-muted-foreground">
-    Select from the suggestions to continue (required for booking).
-  </p>
 </div>
 
 
