@@ -133,7 +133,7 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
     area: "",
 areaOther: "",
     propertyType: '',
-    preferred: '',
+    preferredDate: '',
     preferredTime: '',
     name: '',
     phone: '',
@@ -196,6 +196,17 @@ areaOther: "",
   const update = (field: keyof BookingData, value: string) => {
     setBookingData((prev) => ({ ...prev, [field]: value }));
   };
+function normalizeMYPhone(phone: string) {
+  const p = phone.trim();
+  if (p.startsWith("0")) return `+6${p}`;
+  if (p.startsWith("6")) return `+${p}`;
+  return p;
+}
+
+function isValidMYPhone(phone: string) {
+  const normalized = normalizeMYPhone(phone);
+  return /^\+601\d{7,9}$/.test(normalized);
+}
 
   const stepsForProgress = useMemo(() => {
     // We always show the same milestone steps, but "Service" is considered complete
@@ -214,6 +225,8 @@ areaOther: "",
     };
     return map[step];
   }, [step]);
+
+  
 
   const canContinue = useMemo(() => {
     switch (step) {
@@ -269,20 +282,22 @@ const finalNotes =
   bookingData.area === "Others" && bookingData.areaOther.trim()
     ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
     : bookingData.notes;
-const normalizeMYPhone = (phone: string) => {
-  const p = phone.trim();
-  if (p.startsWith('0')) return `+6${p}`;   // 012... -> +6012...
-  if (p.startsWith('6')) return `+${p}`;    // 6012... -> +6012...
-  return p;                                 // already +6012...
-};
 
-const isValidMYPhone = (phone: string) => {
-  const normalized = normalizeMYPhone(phone);
-  return /^\+601\d{7,9}$/.test(normalized);
-};
 
   const submit = async () => {
   try {
+    if (!isValidMYPhone(bookingData.phone)) {
+      setPhoneError("Invalid WhatsApp number. Use format like +60123456789.");
+      return;
+    }
+
+    const normalizedPhone = normalizeMYPhone(bookingData.phone);
+
+    const finalNotes =
+      bookingData.area === "Others" && bookingData.areaOther.trim()
+        ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
+        : bookingData.notes;
+
     const payload = {
       service_category: bookingData.category,
       service_name: bookingData.service,
@@ -291,8 +306,7 @@ const isValidMYPhone = (phone: string) => {
       vehicle_type: bookingData.vehicleType,
       vehicle_condition: bookingData.condition,
 
-      service_area: bookingData.area,        // always a valid Airtable option
-notes: finalNotes || null,             // includes "Other area" if needed
+      service_area: bookingData.area,
       property_type: bookingData.propertyType,
 
       preferred_date: bookingData.preferredDate,
@@ -301,7 +315,7 @@ notes: finalNotes || null,             // includes "Other area" if needed
       customer_name: bookingData.name,
       customer_whatsapp: normalizedPhone,
       customer_email: bookingData.email || null,
-      notes: bookingData.notes || null,
+      notes: finalNotes || null,
 
       source: preset?.service
         ? "services_page"
@@ -311,13 +325,6 @@ notes: finalNotes || null,             // includes "Other area" if needed
 
       created_at: new Date().toISOString(),
     };
-    if (!isValidMYPhone(bookingData.phone)) {
-  setPhoneError('Invalid WhatsApp number. Use format like +60123456789.');
-  return;
-}
-
-const normalizedPhone = normalizeMYPhone(bookingData.phone);
-
 
     const res = await fetch("/api/bookings", {
       method: "POST",
@@ -332,9 +339,7 @@ const normalizedPhone = normalizeMYPhone(bookingData.phone);
       alert(data?.error || "Booking submission failed. Please try again.");
       return;
     }
-    
 
-    // ✅ success: go to done screen (this matches your FlowStep type)
     setStep("done");
     window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (err) {
@@ -342,6 +347,7 @@ const normalizedPhone = normalizeMYPhone(bookingData.phone);
     alert("Network error. Please try again.");
   }
 };
+
 
   const serviceOptions = bookingData.category === 'premium'
     ? PREMIUM_SERVICES
