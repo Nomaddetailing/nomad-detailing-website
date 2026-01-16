@@ -5,6 +5,8 @@ import { PrimaryButton } from './ui/PrimaryButton';
 import { WhatsAppButton } from './ui/WhatsAppButton';
 import type { BookingPreset } from '../App';
 import { Combobox } from "@headlessui/react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface BookingFlowProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
@@ -131,7 +133,7 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
     area: "",
 areaOther: "",
     propertyType: '',
-    preferredDate: '',
+    preferred: '',
     preferredTime: '',
     name: '',
     phone: '',
@@ -674,12 +676,22 @@ notes: finalNotes || null,             // includes "Other area" if needed
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="block">Preferred Date *</label>
-                    <input
-                      type="date"
-                      value={bookingData.preferredDate}
-                      onChange={(e) => update('preferredDate', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
-                    />
+                    <DatePicker
+  selected={
+    bookingData.preferredDate
+      ? new Date(bookingData.preferredDate)
+      : null
+  }
+  onChange={(date: Date | null) => {
+    if (date) {
+      update('preferredDate', date.toISOString().slice(0, 10));
+    }
+  }}
+  minDate={new Date()}
+  dateFormat="yyyy-MM-dd"
+  placeholderText="Select a date"
+  className="w-full px-4 py-3 rounded-lg border border-border bg-card"
+/>
                   </div>
                   <div className="space-y-2">
                     <label className="block">Preferred Time Window *</label>
