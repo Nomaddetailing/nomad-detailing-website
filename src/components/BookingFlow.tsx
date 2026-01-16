@@ -140,6 +140,7 @@ areaOther: "",
     email: '',
     notes: '',
   });
+  const [phoneError, setPhoneError] = useState<string>('');
 
   const [showCeramicVariants, setShowCeramicVariants] = useState(false);
 
@@ -234,7 +235,7 @@ areaOther: "",
     (bookingData.area !== 'Others' || bookingData.areaOther.trim() !== '')
   );
       case 'contact':
-        return bookingData.name !== '' && bookingData.phone !== '';
+  return bookingData.name !== '' && bookingData.phone !== '' && isValidMYPhone(bookingData.phone);
       default:
         return false;
     }
@@ -268,6 +269,17 @@ const finalNotes =
   bookingData.area === "Others" && bookingData.areaOther.trim()
     ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
     : bookingData.notes;
+const normalizeMYPhone = (phone: string) => {
+  const p = phone.trim();
+  if (p.startsWith('0')) return `+6${p}`;   // 012... -> +6012...
+  if (p.startsWith('6')) return `+${p}`;    // 6012... -> +6012...
+  return p;                                 // already +6012...
+};
+
+const isValidMYPhone = (phone: string) => {
+  const normalized = normalizeMYPhone(phone);
+  return /^\+601\d{7,9}$/.test(normalized);
+};
 
   const submit = async () => {
   try {
@@ -287,7 +299,7 @@ notes: finalNotes || null,             // includes "Other area" if needed
       preferred_time_window: bookingData.preferredTime,
 
       customer_name: bookingData.name,
-      customer_whatsapp: bookingData.phone,
+      customer_whatsapp: normalizedPhone,
       customer_email: bookingData.email || null,
       notes: bookingData.notes || null,
 
@@ -299,6 +311,13 @@ notes: finalNotes || null,             // includes "Other area" if needed
 
       created_at: new Date().toISOString(),
     };
+    if (!isValidMYPhone(bookingData.phone)) {
+  setPhoneError('Invalid WhatsApp number. Use format like +60123456789.');
+  return;
+}
+
+const normalizedPhone = normalizeMYPhone(bookingData.phone);
+
 
     const res = await fetch("/api/bookings", {
       method: "POST",
@@ -313,6 +332,7 @@ notes: finalNotes || null,             // includes "Other area" if needed
       alert(data?.error || "Booking submission failed. Please try again.");
       return;
     }
+    
 
     // ✅ success: go to done screen (this matches your FlowStep type)
     setStep("done");
@@ -742,11 +762,26 @@ notes: finalNotes || null,             // includes "Other area" if needed
                 <div className="space-y-2">
                   <label className="block">WhatsApp Number *</label>
                   <input
-                    value={bookingData.phone}
-                    onChange={(e) => update('phone', e.target.value)}
-                    placeholder="e.g. +60 12-345 6789"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
-                  />
+  type="tel"
+  inputMode="numeric"
+  placeholder="e.g. +60123456789"
+  value={bookingData.phone}
+  onChange={(e) => {
+    // allow only digits and +
+    const cleaned = e.target.value.replace(/[^0-9+]/g, '');
+    update('phone', cleaned);
+
+    // user is correcting it — clear any previous error
+    if (phoneError) setPhoneError('');
+  }}
+  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
+    phoneError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-primary'
+  }`}
+/>
+                  {phoneError && (
+  <p className="text-sm text-red-500 mt-2">{phoneError}</p>
+)}
+
                 </div>
                 <div className="space-y-2">
                   <label className="block">Email (optional)</label>
