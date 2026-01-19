@@ -782,8 +782,10 @@ const finalNotes =
     if (!phoneTouched) setPhoneTouched(true);
   }}
   onBlur={() => {
-    setPhoneTouched(true);
-  }}
+  if (bookingData.phone && isValidMYPhone(bookingData.phone)) {
+    update("phone", normalizeMYPhone(bookingData.phone));
+  }
+}}
   className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
   phoneTouched && bookingData.phone
     ? isValidMYPhone(bookingData.phone)
