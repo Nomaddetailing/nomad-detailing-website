@@ -824,15 +824,13 @@ if (!isValidEmail(bookingData.email)) {
 
 {phoneTouched && phoneError && (
   <p className="text-sm text-danger mt-2 font-medium">
-    <AlertCircle className="h-4 w-4 text-red-400" />
-    {phoneError}
+    <AlertCircle className="h-4 w-4 text-red-400" />{phoneError}
   </p>
 )}
 
 {phoneTouched && !phoneError && bookingData.phone && (
   <p className="text-sm text-success mt-2 font-medium">
-    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-    WhatsApp number looks valid
+    <CheckCircle2 className="h-4 w-4 text-emerald-400" />WhatsApp number looks valid
   </p>
 )}
 
