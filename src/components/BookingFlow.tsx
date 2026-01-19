@@ -8,6 +8,7 @@ import { Combobox } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Input } from "./ui/input";
+import { Input as ValidatedInput } from "./ui/ValidatedTextinput";
 
 interface BookingFlowProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
@@ -212,6 +213,12 @@ function isValidMYPhone(phone: string) {
   const normalized = normalizeMYPhone(phone);
   return /^\+601\d{7,9}$/.test(normalized);
 }
+  const phoneValidationState =
+  !phoneTouched || !bookingData.phone
+    ? "default"
+    : phoneError
+    ? "invalid"
+    : "valid";
   function isValidEmail(email: string) {
   const e = email.trim();
   if (!e) return true; // optional: blank is allowed
@@ -791,37 +798,41 @@ if (!isValidEmail(bookingData.email)) {
                 </div>
                 <div className="space-y-2">
                   <label className="block">WhatsApp Number *</label>
-                  <Input
+                  <label className="block">WhatsApp Number *</label>
+
+<ValidatedInput
   type="tel"
   inputMode="numeric"
   placeholder="e.g. +60123456789"
   value={bookingData.phone}
-  validationState={
-    phoneTouched
-      ? phoneError
-        ? "invalid"
-        : bookingData.phone
-        ? "valid"
-        : "default"
-      : "default"
-  }
   onChange={(e) => {
     const cleaned = e.target.value.replace(/[^0-9+]/g, "");
     update("phone", cleaned);
 
     if (!phoneTouched) setPhoneTouched(true);
 
-    if (cleaned && !isValidMYPhone(cleaned)) setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
-    else setPhoneError("");
+    if (cleaned && !isValidMYPhone(cleaned)) {
+      setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
+    } else {
+      setPhoneError("");
+    }
   }}
+  validationState={phoneValidationState}
+  aria-invalid={phoneValidationState === "invalid"}
 />
+
 {phoneTouched && phoneError && (
-  <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
+  <p className="mt-2 flex items-center gap-2 text-sm text-red-400 font-medium">
+    <AlertCircle className="h-4 w-4 text-red-400" />
+    {phoneError}
+  </p>
 )}
-                  {phoneTouched && !phoneError && bookingData.phone && isValidMYPhone(bookingData.phone) && (
-  <p className="mt-2 text-sm font-medium !text-emerald-400">
-  ✓ WhatsApp number looks valid
-</p>
+
+{phoneTouched && !phoneError && bookingData.phone && (
+  <p className="mt-2 flex items-center gap-2 text-sm text-emerald-400 font-medium">
+    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+    WhatsApp number looks valid
+  </p>
 )}
 
                 </div>
