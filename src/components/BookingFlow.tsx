@@ -810,25 +810,27 @@ if (!isValidEmail(bookingData.email)) {
 
     if (!phoneTouched) setPhoneTouched(true);
 
-    if (cleaned && !isValidMYPhone(cleaned)) {
-      setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
-    } else {
-      setPhoneError("");
-    }
+    if (cleaned && !isValidMYPhone(cleaned)) setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
+    else setPhoneError("");
   }}
-  validationState={phoneValidationState}
-  aria-invalid={phoneValidationState === "invalid"}
+  validationState={
+    phoneTouched && phoneError
+      ? "invalid"
+      : phoneTouched && bookingData.phone && isValidMYPhone(bookingData.phone)
+      ? "valid"
+      : "default"
+  }
 />
 
 {phoneTouched && phoneError && (
-  <p className="mt-2 flex items-center gap-2 text-sm text-red-400 font-medium">
+  <p className="text-sm text-danger mt-2 font-medium">
     <AlertCircle className="h-4 w-4 text-red-400" />
     {phoneError}
   </p>
 )}
 
 {phoneTouched && !phoneError && bookingData.phone && (
-  <p className="mt-2 flex items-center gap-2 text-sm text-emerald-400 font-medium">
+  <p className="text-sm text-success mt-2 font-medium">
     <CheckCircle2 className="h-4 w-4 text-emerald-400" />
     WhatsApp number looks valid
   </p>
