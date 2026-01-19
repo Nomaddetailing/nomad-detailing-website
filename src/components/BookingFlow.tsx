@@ -7,6 +7,7 @@ import type { BookingPreset } from '../App';
 import { Combobox } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Input } from "./ui/input";
 
 interface BookingFlowProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
@@ -790,70 +791,65 @@ if (!isValidEmail(bookingData.email)) {
                 </div>
                 <div className="space-y-2">
                   <label className="block">WhatsApp Number *</label>
-                  <input
+                  <Input
   type="tel"
   inputMode="numeric"
   placeholder="e.g. +60123456789"
   value={bookingData.phone}
   onChange={(e) => {
-    const cleaned = e.target.value.replace(/[^0-9+]/g, '');
-    update('phone', cleaned);
+    const cleaned = e.target.value.replace(/[^0-9+]/g, "");
+    update("phone", cleaned);
 
     if (!phoneTouched) setPhoneTouched(true);
 
     if (cleaned && !isValidMYPhone(cleaned)) {
-      setPhoneError('Invalid WhatsApp number. Use +601XXXXXXXX');
+      setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
     } else {
-      setPhoneError('');
+      setPhoneError("");
     }
   }}
-  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
-    phoneError
-      ? 'border-red-500 focus:border-red-500'
-      : bookingData.phone && isValidMYPhone(bookingData.phone)
-      ? 'border-green-500'
-      : 'border-border focus:border-primary'
-  }`}
+  aria-invalid={phoneTouched && !!phoneError}
+  className={
+    bookingData.phone && isValidMYPhone(bookingData.phone)
+      ? "border-green-500 focus-visible:ring-green-500/20"
+      : ""
+  }
 />
 {phoneTouched && phoneError && (
-  <p className="text-sm text-red-500 mt-2">
-    {phoneError}
-  </p>
+  <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
 )}
+
 {phoneTouched && !phoneError && bookingData.phone && (
-  <p className="text-sm text-green-500 mt-2">
+  <p className="text-sm text-green-400 mt-2 font-medium">
     ✓ WhatsApp number looks valid
   </p>
 )}
+
                 </div>
                 <div className="space-y-2">
   <label className="block">Email (optional)</label>
 
-  <input
+  <Input
+  type="email"
+  placeholder="name@example.com"
   value={bookingData.email}
   onChange={(e) => {
     const val = e.target.value;
-    update('email', val);
+    update("email", val);
 
     if (!emailTouched) setEmailTouched(true);
 
-    if (val && !isValidEmail(val)) {
-      setEmailError('Please enter a valid email address');
-    } else {
-      setEmailError('');
-    }
+    if (val && !isValidEmail(val)) setEmailError("Please enter a valid email address");
+    else setEmailError("");
   }}
-  placeholder="name@example.com"
-  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
-    emailError
-      ? 'border-red-500'
-      : bookingData.email && isValidEmail(bookingData.email)
-      ? 'border-green-500'
-      : 'border-border focus:border-primary'
-  }`}
+  aria-invalid={emailTouched && !!emailError}
+  className={
+    bookingData.email && isValidEmail(bookingData.email)
+      ? "border-green-500 focus-visible:ring-green-500/20"
+      : ""
+  }
 />
-
-  {emailTouched && bookingData.email.trim() && (
+{emailTouched && bookingData.email.trim() && (
     isValidEmail(bookingData.email) ? (
       <p className="text-sm text-green-400 mt-2 font-medium">
         ✓ Email looks good
@@ -864,6 +860,7 @@ if (!isValidEmail(bookingData.email)) {
       </p>
     )
   )}
+  
 </div>
 
                 <div className="space-y-2">
