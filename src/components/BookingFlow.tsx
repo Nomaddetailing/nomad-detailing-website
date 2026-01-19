@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Check } from 'lucide-react';
 import { Section } from './ui/Section';
 import { PrimaryButton } from './ui/PrimaryButton';
 import { WhatsAppButton } from './ui/WhatsAppButton';
@@ -809,6 +809,7 @@ if (!isValidEmail(bookingData.email)) {
     }
   }}
   aria-invalid={phoneTouched && !!phoneError}
+  aria-valid={bookingData.phone && isValidMYPhone(bookingData.phone)}
   className={`no-focus-outline w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
   phoneError
     ? 'border-red-500 focus:border-red-500'
@@ -820,11 +821,11 @@ if (!isValidEmail(bookingData.email)) {
 {phoneTouched && phoneError && (
   <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
 )}
-
-{phoneTouched && !phoneError && bookingData.phone && (
-  <p className="text-sm text-green-400 mt-2 font-medium">
-    ✓ WhatsApp number looks valid
-  </p>
+                  {phoneTouched && !phoneError && bookingData.phone && (
+  <div className="mt-2 flex items-center gap-2 text-sm font-medium text-emerald-500">
+    <Check size={16} strokeWidth={2.5} />
+    <span>WhatsApp number looks valid</span>
+  </div>
 )}
 
                 </div>
