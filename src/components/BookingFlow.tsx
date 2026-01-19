@@ -809,11 +809,13 @@ if (!isValidEmail(bookingData.email)) {
     }
   }}
   aria-invalid={phoneTouched && !!phoneError}
-  className={
-    bookingData.phone && isValidMYPhone(bookingData.phone)
-      ? "border-green-500 focus-visible:ring-green-500/20"
-      : ""
-  }
+  className={`no-focus-outline w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
+  phoneError
+    ? 'border-red-500 focus:border-red-500'
+    : bookingData.phone && isValidMYPhone(bookingData.phone)
+    ? 'border-green-500'
+    : 'border-border focus:border-primary'
+}`}
 />
 {phoneTouched && phoneError && (
   <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
@@ -843,11 +845,14 @@ if (!isValidEmail(bookingData.email)) {
     else setEmailError("");
   }}
   aria-invalid={emailTouched && !!emailError}
-  className={
-    bookingData.email && isValidEmail(bookingData.email)
-      ? "border-green-500 focus-visible:ring-green-500/20"
-      : ""
-  }
+    className={`no-focus-outline w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
+  emailError
+    ? 'border-red-500 focus:border-red-500'
+    : bookingData.email && isValidEmail(bookingData.email)
+    ? 'border-green-500'
+    : 'border-border focus:border-primary'
+}`}
+
 />
 {emailTouched && bookingData.email.trim() && (
     isValidEmail(bookingData.email) ? (
