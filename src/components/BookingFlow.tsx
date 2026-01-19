@@ -785,10 +785,10 @@ const finalNotes =
     setPhoneTouched(true);
   }}
   className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
-    phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone)
-      ? "border-red-500 focus:border-red-500"
-      : "border-border focus:border-primary"
-  }`}
+  phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone)
+    ? "border-red-500 ring-1 ring-red-500/40"
+    : "border-border focus:border-primary"
+}`}
 />
 
                   {phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone) && (
