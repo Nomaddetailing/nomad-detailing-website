@@ -785,21 +785,24 @@ const finalNotes =
     setPhoneTouched(true);
   }}
   className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
-  phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone)
-    ? "border-red-500 ring-1 ring-red-500/40"
+  phoneTouched && bookingData.phone
+    ? isValidMYPhone(bookingData.phone)
+      ? "border-green-500 ring-1 ring-green-500/40"
+      : "border-red-500 ring-1 ring-red-500/40"
     : "border-border focus:border-primary"
 }`}
 />
-
-                  {phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone) && (
-  <div className="flex items-center gap-2 text-red-400 mt-2">
-    <AlertCircle size={16} />
-    <p className="text-sm font-medium">
+{phoneTouched && bookingData.phone && (
+  isValidMYPhone(bookingData.phone) ? (
+    <p className="text-sm text-green-400 mt-2 font-medium flex items-center gap-1">
+      ✓ WhatsApp number looks good
+    </p>
+  ) : (
+    <p className="text-sm text-red-400 mt-2 font-medium">
       Please enter a valid Malaysian WhatsApp number (e.g. +60123456789)
     </p>
-  </div>
+  )
 )}
-
                 </div>
                 <div className="space-y-2">
                   <label className="block">Email (optional)</label>
