@@ -798,7 +798,6 @@ if (!isValidEmail(bookingData.email)) {
                 </div>
                 <div className="space-y-2">
                   <label className="block">WhatsApp Number *</label>
-                  <label className="block">WhatsApp Number *</label>
 
 <ValidatedInput
   type="tel"
