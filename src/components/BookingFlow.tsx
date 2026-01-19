@@ -123,6 +123,7 @@ function prettyServiceLabel(data: BookingData) {
 
 export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [step, setStep] = useState<FlowStep>('category');
+  const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
 
   const [bookingData, setBookingData] = useState<BookingData>({
     category: null,
@@ -774,18 +775,26 @@ const finalNotes =
   value={bookingData.phone}
   onChange={(e) => {
     // allow only digits and +
-    const cleaned = e.target.value.replace(/[^0-9+]/g, '');
-    update('phone', cleaned);
+    const cleaned = e.target.value.replace(/[^0-9+]/g, "");
+    update("phone", cleaned);
 
-    // user is correcting it — clear any previous error
-    if (phoneError) setPhoneError('');
+    // user has interacted
+    if (!phoneTouched) setPhoneTouched(true);
   }}
-  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
-    phoneError ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-primary'
+  onBlur={() => {
+    setPhoneTouched(true);
+  }}
+  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
+    phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone)
+      ? "border-red-500 focus:border-red-500"
+      : "border-border focus:border-primary"
   }`}
 />
-                  {phoneError && (
-  <p className="text-sm text-red-500 mt-2">{phoneError}</p>
+
+                  {phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone) && (
+  <p className="text-sm text-red-500 mt-2">
+    Please enter a valid Malaysian WhatsApp number (e.g. +60123456789)
+  </p>
 )}
 
                 </div>
