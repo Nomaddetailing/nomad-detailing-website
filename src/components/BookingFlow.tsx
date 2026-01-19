@@ -796,35 +796,32 @@ if (!isValidEmail(bookingData.email)) {
   inputMode="numeric"
   placeholder="e.g. +60123456789"
   value={bookingData.phone}
+  validationState={
+    phoneTouched
+      ? phoneError
+        ? "invalid"
+        : bookingData.phone
+        ? "valid"
+        : "default"
+      : "default"
+  }
   onChange={(e) => {
     const cleaned = e.target.value.replace(/[^0-9+]/g, "");
     update("phone", cleaned);
 
     if (!phoneTouched) setPhoneTouched(true);
 
-    if (cleaned && !isValidMYPhone(cleaned)) {
-      setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
-    } else {
-      setPhoneError("");
-    }
+    if (cleaned && !isValidMYPhone(cleaned)) setPhoneError("Invalid WhatsApp number. Use +601XXXXXXXX");
+    else setPhoneError("");
   }}
-  aria-invalid={phoneTouched && !!phoneError}
-  className={`w-full ${
-    phoneError
-      ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/30"
-      : bookingData.phone && isValidMYPhone(bookingData.phone)
-      ? "border-emerald-500 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
-      : "border-border focus-visible:border-ring focus-visible:ring-ring/50"
-  }`}
 />
 {phoneTouched && phoneError && (
   <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
 )}
                   {phoneTouched && !phoneError && bookingData.phone && isValidMYPhone(bookingData.phone) && (
-  <p className="mt-2 flex items-center gap-2 text-sm font-medium text-emerald-400">
-    <span className="text-emerald-400">✓</span>
-    WhatsApp number looks valid
-  </p>
+  <p className="mt-2 text-sm font-medium !text-emerald-400">
+  ✓ WhatsApp number looks valid
+</p>
 )}
 
                 </div>
