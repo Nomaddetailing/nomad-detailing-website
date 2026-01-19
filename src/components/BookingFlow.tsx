@@ -823,15 +823,16 @@ if (!isValidEmail(bookingData.email)) {
 />
 
 {phoneTouched && phoneError && (
-  <p className="text-sm text-danger mt-2 font-medium">
-    <AlertCircle className="h-4 w-4 text-red-400" />{phoneError}
-  </p>
+  <div className="mt-2 flex items-center gap-2 text-danger text-sm font-medium">
+    <AlertCircle size={16} className="shrink-0" />
+    <span>{phoneError}</span>
+  </div>
 )}
-
 {phoneTouched && !phoneError && bookingData.phone && (
-  <p className="text-sm text-success mt-2 font-medium">
-    <CheckCircle2 className="h-4 w-4 text-emerald-400" />WhatsApp number looks valid
-  </p>
+  <div className="mt-2 flex items-center gap-2 text-success text-sm font-medium">
+    <CheckCircle2 size={16} className="shrink-0" />
+    <span>WhatsApp number looks valid</span>
+  </div>
 )}
 
                 </div>
