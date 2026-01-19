@@ -124,6 +124,7 @@ function prettyServiceLabel(data: BookingData) {
 export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [step, setStep] = useState<FlowStep>('category');
   const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
+  const [emailTouched, setEmailTouched] = useState(false); //email validation
 
   const [bookingData, setBookingData] = useState<BookingData>({
     category: null,
@@ -203,10 +204,15 @@ function normalizeMYPhone(phone: string) {
   if (p.startsWith("6")) return `+${p}`;
   return p;
 }
-
 function isValidMYPhone(phone: string) {
   const normalized = normalizeMYPhone(phone);
   return /^\+601\d{7,9}$/.test(normalized);
+}
+  function isValidEmail(email: string) {
+  const e = email.trim();
+  if (!e) return true; // optional: blank is allowed
+  // practical email validation (not overly strict)
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 }
 
   const stepsForProgress = useMemo(() => {
@@ -249,7 +255,12 @@ function isValidMYPhone(phone: string) {
     (bookingData.area !== 'Others' || bookingData.areaOther.trim() !== '')
   );
       case 'contact':
-  return bookingData.name !== '' && bookingData.phone !== '' && isValidMYPhone(bookingData.phone);
+  return (
+    bookingData.name !== '' &&
+    bookingData.phone !== '' &&
+    isValidMYPhone(bookingData.phone) &&
+    isValidEmail(bookingData.email)
+  );
       default:
         return false;
     }
@@ -291,7 +302,10 @@ const finalNotes =
       setPhoneError("Invalid WhatsApp number. Use format like +60123456789.");
       return;
     }
-
+if (!isValidEmail(bookingData.email)) {
+  setEmailTouched(true);
+  return;
+}
     const normalizedPhone = normalizeMYPhone(bookingData.phone);
 
     const finalNotes =
@@ -315,7 +329,7 @@ const finalNotes =
 
       customer_name: bookingData.name,
       customer_whatsapp: normalizedPhone,
-      customer_email: bookingData.email || null,
+      customer_email: bookingData.email.trim() ? bookingData.email.trim() : null,
       notes: finalNotes || null,
 
       source: preset?.service
@@ -807,14 +821,38 @@ const finalNotes =
 )}
                 </div>
                 <div className="space-y-2">
-                  <label className="block">Email (optional)</label>
-                  <input
-                    value={bookingData.email}
-                    onChange={(e) => update('email', e.target.value)}
-                    placeholder="name@example.com"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-card focus:border-primary focus:outline-none"
-                  />
-                </div>
+  <label className="block">Email (optional)</label>
+
+  <input
+    type="email"
+    value={bookingData.email}
+    onChange={(e) => {
+      update('email', e.target.value);
+    }}
+    onBlur={() => setEmailTouched(true)}
+    placeholder="name@example.com"
+    className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
+      emailTouched && bookingData.email.trim()
+        ? isValidEmail(bookingData.email)
+          ? "border-green-500 ring-1 ring-green-500/40"
+          : "border-red-500 ring-1 ring-red-500/40"
+        : "border-border focus:border-primary"
+    }`}
+  />
+
+  {emailTouched && bookingData.email.trim() && (
+    isValidEmail(bookingData.email) ? (
+      <p className="text-sm text-green-400 mt-2 font-medium">
+        ✓ Email looks good
+      </p>
+    ) : (
+      <p className="text-sm text-red-400 mt-2 font-medium">
+        Please enter a valid email address (e.g. name@example.com)
+      </p>
+    )
+  )}
+</div>
+
                 <div className="space-y-2">
                   <label className="block">Notes (optional)</label>
                   <textarea
