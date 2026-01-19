@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Section } from './ui/Section';
 import { PrimaryButton } from './ui/PrimaryButton';
 import { WhatsAppButton } from './ui/WhatsAppButton';
@@ -792,9 +792,12 @@ const finalNotes =
 />
 
                   {phoneTouched && bookingData.phone && !isValidMYPhone(bookingData.phone) && (
-  <p className="text-sm text-red-500 mt-2">
-    Please enter a valid Malaysian WhatsApp number (e.g. +60123456789)
-  </p>
+  <div className="flex items-center gap-2 text-red-400 mt-2">
+    <AlertCircle size={16} />
+    <p className="text-sm font-medium">
+      Please enter a valid Malaysian WhatsApp number (e.g. +60123456789)
+    </p>
+  </div>
 )}
 
                 </div>
