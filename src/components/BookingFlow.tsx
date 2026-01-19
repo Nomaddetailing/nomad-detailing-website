@@ -809,23 +809,22 @@ if (!isValidEmail(bookingData.email)) {
     }
   }}
   aria-invalid={phoneTouched && !!phoneError}
-  aria-valid={bookingData.phone && isValidMYPhone(bookingData.phone)}
-  className={`no-focus-outline w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
-  phoneError
-    ? 'border-red-500 focus:border-red-500'
-    : bookingData.phone && isValidMYPhone(bookingData.phone)
-    ? 'border-green-500'
-    : 'border-border focus:border-primary'
-}`}
+  className={`w-full ${
+    phoneError
+      ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/30"
+      : bookingData.phone && isValidMYPhone(bookingData.phone)
+      ? "border-emerald-500 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/30"
+      : "border-border focus-visible:border-ring focus-visible:ring-ring/50"
+  }`}
 />
 {phoneTouched && phoneError && (
   <p className="text-sm text-red-400 mt-2 font-medium">{phoneError}</p>
 )}
-                  {phoneTouched && !phoneError && bookingData.phone && (
-  <div className="mt-2 flex items-center gap-2 text-sm font-medium text-emerald-500">
-    <Check size={16} strokeWidth={2.5} />
-    <span>WhatsApp number looks valid</span>
-  </div>
+                  {phoneTouched && !phoneError && bookingData.phone && isValidMYPhone(bookingData.phone) && (
+  <p className="mt-2 flex items-center gap-2 text-sm font-medium text-emerald-400">
+    <span className="text-emerald-400">✓</span>
+    WhatsApp number looks valid
+  </p>
 )}
 
                 </div>
