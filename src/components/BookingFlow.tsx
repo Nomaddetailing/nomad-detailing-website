@@ -219,12 +219,11 @@ function isValidMYPhone(phone: string) {
     : phoneError
     ? "invalid"
     : "valid";
-  function isValidEmail(email: string) {
-  const e = email.trim();
-  if (!e) return true; // optional: blank is allowed
-  // practical email validation (not overly strict)
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
-}
+  const isValidEmail = (email: string) => {
+  const v = email.trim();
+  // requires at least one dot in the domain and a TLD of 2–24 letters
+  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,24}$/i.test(v);
+};
 const shouldValidateEmailLive = (email: string) => {
   const e = email.trim();
   if (!e) return false;
