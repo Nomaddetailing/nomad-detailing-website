@@ -124,7 +124,9 @@ function prettyServiceLabel(data: BookingData) {
 export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [step, setStep] = useState<FlowStep>('category');
   const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
-  const [emailTouched, setEmailTouched] = useState(false); //email validation
+  const [emailTouched, setEmailTouched] = useState(false);//email validation
+const [emailError, setEmailError] = useState('');
+
 
   const [bookingData, setBookingData] = useState<BookingData>({
     category: null,
@@ -142,6 +144,7 @@ areaOther: "",
     email: '',
     notes: '',
   });
+
   const [phoneError, setPhoneError] = useState<string>('');
 
   const [showCeramicVariants, setShowCeramicVariants] = useState(false);
@@ -793,59 +796,60 @@ if (!isValidEmail(bookingData.email)) {
   placeholder="e.g. +60123456789"
   value={bookingData.phone}
   onChange={(e) => {
-    // allow only digits and +
-    const cleaned = e.target.value.replace(/[^0-9+]/g, "");
-    update("phone", cleaned);
+    const cleaned = e.target.value.replace(/[^0-9+]/g, '');
+    update('phone', cleaned);
 
-    // user has interacted
     if (!phoneTouched) setPhoneTouched(true);
+
+    if (cleaned && !isValidMYPhone(cleaned)) {
+      setPhoneError('Invalid WhatsApp number. Use +601XXXXXXXX');
+    } else {
+      setPhoneError('');
+    }
   }}
-  onBlur={() => {
-  if (bookingData.phone && isValidMYPhone(bookingData.phone)) {
-    update("phone", normalizeMYPhone(bookingData.phone));
-  }
-}}
-  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
-  phoneTouched && bookingData.phone
-    ? isValidMYPhone(bookingData.phone)
-      ? "border-green-500 ring-1 ring-green-500/40"
-      : "border-red-500 ring-1 ring-red-500/40"
-    : "border-border focus:border-primary"
-}`}
+  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
+    phoneError
+      ? 'border-red-500 focus:border-red-500'
+      : bookingData.phone && isValidMYPhone(bookingData.phone)
+      ? 'border-green-500'
+      : 'border-border focus:border-primary'
+  }`}
 />
-{phoneTouched && bookingData.phone && (
-  isValidMYPhone(bookingData.phone) ? (
-    <p className="text-sm text-green-400 mt-2 font-medium flex items-center gap-1">
-      ✓ WhatsApp number looks good
-    </p>
-  ) : (
-    <p className="text-sm text-red-400 mt-2 font-medium">
-      Please enter a valid Malaysian WhatsApp number (e.g. +60123456789)
-    </p>
-  )
+{phoneTouched && phoneError && (
+  <p className="text-sm text-red-500 mt-2">
+    {phoneError}
+  </p>
+)}
+{phoneTouched && !phoneError && bookingData.phone && (
+  <p className="text-sm text-green-500 mt-2">
+    ✓ WhatsApp number looks valid
+  </p>
 )}
                 </div>
                 <div className="space-y-2">
   <label className="block">Email (optional)</label>
 
   <input
-  type="email"
   value={bookingData.email}
   onChange={(e) => {
-    const v = e.target.value;
-    update("email", v);
+    const val = e.target.value;
+    update('email', val);
 
-    // Start validation once it's meaningful (middle ground)
-    if (shouldValidateEmailLive(v)) setEmailTouched(true);
+    if (!emailTouched) setEmailTouched(true);
+
+    if (val && !isValidEmail(val)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
   }}
-  onBlur={() => setEmailTouched(true)}
   placeholder="name@example.com"
-  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
-    emailTouched && bookingData.email.trim()
-      ? isValidEmail(bookingData.email)
-        ? "border-green-500 ring-1 ring-green-500/40"
-        : "border-red-500 ring-1 ring-red-500/40"
-      : "border-border focus:border-primary"
+  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none ${
+    emailError
+      ? 'border-red-500'
+      : bookingData.email && isValidEmail(bookingData.email)
+      ? 'border-green-500'
+      : 'border-border focus:border-primary'
   }`}
 />
 
