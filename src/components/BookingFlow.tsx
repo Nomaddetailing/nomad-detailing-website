@@ -214,6 +214,11 @@ function isValidMYPhone(phone: string) {
   // practical email validation (not overly strict)
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 }
+const shouldValidateEmailLive = (email: string) => {
+  const e = email.trim();
+  if (!e) return false;
+  return e.length >= 3 || e.includes("@");
+};
 
   const stepsForProgress = useMemo(() => {
     // We always show the same milestone steps, but "Service" is considered complete
@@ -824,21 +829,25 @@ if (!isValidEmail(bookingData.email)) {
   <label className="block">Email (optional)</label>
 
   <input
-    type="email"
-    value={bookingData.email}
-    onChange={(e) => {
-      update('email', e.target.value);
-    }}
-    onBlur={() => setEmailTouched(true)}
-    placeholder="name@example.com"
-    className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
-      emailTouched && bookingData.email.trim()
-        ? isValidEmail(bookingData.email)
-          ? "border-green-500 ring-1 ring-green-500/40"
-          : "border-red-500 ring-1 ring-red-500/40"
-        : "border-border focus:border-primary"
-    }`}
-  />
+  type="email"
+  value={bookingData.email}
+  onChange={(e) => {
+    const v = e.target.value;
+    update("email", v);
+
+    // Start validation once it's meaningful (middle ground)
+    if (shouldValidateEmailLive(v)) setEmailTouched(true);
+  }}
+  onBlur={() => setEmailTouched(true)}
+  placeholder="name@example.com"
+  className={`w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition-colors ${
+    emailTouched && bookingData.email.trim()
+      ? isValidEmail(bookingData.email)
+        ? "border-green-500 ring-1 ring-green-500/40"
+        : "border-red-500 ring-1 ring-red-500/40"
+      : "border-border focus:border-primary"
+  }`}
+/>
 
   {emailTouched && bookingData.email.trim() && (
     isValidEmail(bookingData.email) ? (
