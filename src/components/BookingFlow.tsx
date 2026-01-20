@@ -127,7 +127,10 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [step, setStep] = useState<FlowStep>('category');
   const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
   const [emailTouched, setEmailTouched] = useState(false);//email validation
-const [emailError, setEmailError] = useState('');
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+
+  const [emailError, setEmailError] = useState('');
 
 
   const [bookingData, setBookingData] = useState<BookingData>({
@@ -310,8 +313,40 @@ const finalNotes =
     ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
     : bookingData.notes;
 
+const validateContactStep = () => {
+  const errors: string[] = [];
+
+  if (!bookingData.name.trim()) {
+    errors.push("Name is required.");
+  }
+
+  if (!bookingData.phone.trim()) {
+    errors.push("WhatsApp number is required.");
+  } else if (!isValidMYPhone(bookingData.phone)) {
+    errors.push("WhatsApp number is invalid. Use format like +60123456789 or 0123456789.");
+  }
+
+  // Optional email: only validate if user typed something
+  if (bookingData.email.trim() && !isValidEmail(bookingData.email)) {
+    errors.push("Email is invalid. Please enter a valid email address (e.g. name@example.com).");
+  }
+
+  return errors;
+};
 
   const submit = async () => {
+    setSubmitAttempted(true);
+
+  const errors = validateContactStep();
+  setSubmitErrors(errors);
+
+  if (errors.length > 0) {
+    // also ensure inline errors become visible
+    setPhoneTouched(true);
+    setEmailTouched(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });//error summary
+    return;
+  }
   try {
     if (!isValidMYPhone(bookingData.phone)) {
       setPhoneError("Invalid WhatsApp number. Use format like +60123456789.");
@@ -775,6 +810,16 @@ if (!isValidEmail(bookingData.email)) {
               </div>
             </div>
           )}
+{submitAttempted && submitErrors.length > 0 && (//error summary banner
+  <div className="mb-6 rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+    <div className="font-medium">Please fix the following:</div>
+    <ul className="mt-2 list-disc pl-5 text-sm"> 
+      {submitErrors.map((e) => (
+        <li key={e}>{e}</li>
+      ))}
+    </ul>
+  </div>
+)}
 
           {/* Step: Contact */}
           {step === 'contact' && (
@@ -890,7 +935,7 @@ if (!isValidEmail(bookingData.email)) {
                 <button onClick={goBack} className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="mr-2" size={18} /> Back
                 </button>
-                <PrimaryButton onClick={submit} disabled={!canContinue}>
+                <PrimaryButton onClick={submit}>
                   Submit Request <ArrowRight className="ml-2" size={20} />
                 </PrimaryButton>
               </div>
