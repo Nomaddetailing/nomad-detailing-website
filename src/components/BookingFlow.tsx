@@ -334,63 +334,59 @@ const validateContactStep = () => {
   return errors;
 };
 
-  const submit = async () => {
-    setSubmitAttempted(true);
+const submit = async () => {
+  console.log("SUBMIT CLICKED"); // debug
+
+  setSubmitAttempted(true);
 
   const errors = validateContactStep();
   setSubmitErrors(errors);
 
+  // force inline errors visible
+  setPhoneTouched(true);
+  setEmailTouched(true);
+
   if (errors.length > 0) {
-    // also ensure inline errors become visible
-    setPhoneTouched(true);
-    setEmailTouched(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });//error summary
+    window.scrollTo({ top: 0, behavior: "smooth" });
     return;
   }
+
+  const normalizedPhone = normalizeMYPhone(bookingData.phone);
+
+  const finalNotes =
+    bookingData.area === "Others" && bookingData.areaOther.trim()
+      ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
+      : bookingData.notes;
+
+  const payload = {
+    service_category: bookingData.category,
+    service_name: bookingData.service,
+    service_variant: bookingData.variant || null,
+
+    vehicle_type: bookingData.vehicleType,
+    vehicle_condition: bookingData.condition,
+
+    service_area: bookingData.area,
+    property_type: bookingData.propertyType,
+
+    preferred_date: bookingData.preferredDate,
+    preferred_time_window: bookingData.preferredTime,
+
+    customer_name: bookingData.name,
+    customer_whatsapp: normalizedPhone,
+    customer_email: bookingData.email?.trim() || null,
+    notes: finalNotes?.trim() || null,
+
+    source: preset?.service
+      ? "services_page"
+      : preset?.category
+      ? "homepage_category"
+      : "direct_booking",
+
+    created_at: new Date().toISOString(),
+  };
+
   try {
-    if (!isValidMYPhone(bookingData.phone)) {
-      setPhoneError("Invalid WhatsApp number. Use format like +60123456789.");
-      return;
-    }
-if (!isValidEmail(bookingData.email)) {
-  setEmailTouched(true);
-  return;
-}
-    const normalizedPhone = normalizeMYPhone(bookingData.phone);
-
-    const finalNotes =
-      bookingData.area === "Others" && bookingData.areaOther.trim()
-        ? `${bookingData.notes ? bookingData.notes + "\n\n" : ""}Service Area (Other): ${bookingData.areaOther.trim()}`
-        : bookingData.notes;
-
-    const payload = {
-      service_category: bookingData.category,
-      service_name: bookingData.service,
-      service_variant: bookingData.variant || null,
-
-      vehicle_type: bookingData.vehicleType,
-      vehicle_condition: bookingData.condition,
-
-      service_area: bookingData.area,
-      property_type: bookingData.propertyType,
-
-      preferred_date: bookingData.preferredDate,
-      preferred_time_window: bookingData.preferredTime,
-
-      customer_name: bookingData.name,
-      customer_whatsapp: normalizedPhone,
-      customer_email: bookingData.email.trim() ? bookingData.email.trim() : null,
-      notes: finalNotes || null,
-
-      source: preset?.service
-        ? "services_page"
-        : preset?.category
-        ? "homepage_category"
-        : "direct_booking",
-
-      created_at: new Date().toISOString(),
-    };
-
     const res = await fetch("/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -412,6 +408,7 @@ if (!isValidEmail(bookingData.email)) {
     alert("Network error. Please try again.");
   }
 };
+
 
 
   const serviceOptions = bookingData.category === 'premium'
@@ -935,8 +932,8 @@ if (!isValidEmail(bookingData.email)) {
                 <button onClick={goBack} className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="mr-2" size={18} /> Back
                 </button>
-                <PrimaryButton onClick={submit}>
-                  Submit Request <ArrowRight className="ml-2" size={20} />
+                <PrimaryButton type="button" onClick={submit}>
+                    Submit Request <ArrowRight className="ml-2" size={20} />
                 </PrimaryButton>
               </div>
             </div>
