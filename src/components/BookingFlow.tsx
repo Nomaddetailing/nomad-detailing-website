@@ -813,7 +813,7 @@ if (!isValidEmail(bookingData.email)) {
 {submitAttempted && submitErrors.length > 0 && (//error summary banner
   <div className="mb-6 rounded-lg border border-red-500/50 bg-red-500/10 p-4">
     <div className="font-medium">Please fix the following:</div>
-    <ul className="mt-2 list-disc pl-5 text-sm"> 
+    <ul className="mt-2 list-disc pl-5 text-sm !text-red-200"> 
       {submitErrors.map((e) => (
         <li key={e}>{e}</li>
       ))}
