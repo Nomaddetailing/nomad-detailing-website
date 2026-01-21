@@ -99,7 +99,7 @@ const scrollToQuote = () => {
           ].map((x) => (
             <div
               key={x.title}
-              className="rounded-2xl border border-border bg-card/40 p-6 min-h-[110px]"
+              className="rounded-2xl border border-border rounded-xl bg-card/40 p-6 min-h-[110px]"//changed rounded-xl
             >
               <div className="text-base font-semibold">{x.title}</div>
               <div className="mt-2 text-sm text-muted-foreground leading-relaxed">{x.desc}</div>
