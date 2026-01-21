@@ -17,7 +17,8 @@ export function PrimaryButton({
   className = '',
   disabled = false,
 }: PrimaryButtonProps) {
-  const baseStyles = 'px-8 py-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles ='inline-flex items-center justify-center px-8 py-3 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+
   
   const variants = {
     primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20',
