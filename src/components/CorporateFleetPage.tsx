@@ -67,25 +67,54 @@ export function CorporateFleetPage({ onNavigate }: CorporateFleetPageProps) {
 
   return (
     <div>
-      <Section>
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-sm text-muted-foreground mb-4 tracking-wider uppercase">
-            Corporate / Fleet
-          </p>
-          <h1 className="text-4xl lg:text-5xl mb-4 tracking-tight">
-            Consistent, Accountable Mobile Detailing for Multiple Vehicles
-          </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Tailored solutions for fleets, dealerships, and property managers — built around reliable scheduling,
-            consistent standards, and clear communication.
-          </p>
+      <section className="relative">
+  <div className="mx-auto max-w-6xl px-6 py-16 lg:py-20">
+    <div className="text-center">
+      <p className="text-xs tracking-[0.2em] text-muted-foreground uppercase">
+        Corporate / Fleet
+      </p>
 
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <PrimaryButton onClick={() => onNavigate("contact")}>Get a Quote</PrimaryButton>
-            <WhatsAppButton variant="outline" className="w-full sm:w-auto" />
+      <h1 className="mt-4 text-4xl lg:text-6xl font-semibold leading-[1.05]">
+        Consistent, Accountable Mobile Detailing for Multiple Vehicles
+      </h1>
+
+      <p className="mt-5 text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto">
+        Tailored solutions for fleets, dealerships, and property managers — built around reliable scheduling,
+        consistent standards, and clear communication.
+      </p>
+
+      {/* Support points */}
+      <div className="mt-8 grid gap-3 sm:grid-cols-3 max-w-4xl mx-auto text-left">
+        {[
+          { title: "Reliable scheduling", desc: "Pre-agreed slots with SOP-driven timing." },
+          { title: "Consistent standards", desc: "Same checklists, same finish, every visit." },
+          { title: "Clear reporting", desc: "Before/after photos + issues flagged early." },
+        ].map((x) => (
+          <div key={x.title} className="rounded-xl border border-border bg-card/40 p-4">
+            <div className="font-medium">{x.title}</div>
+            <div className="text-sm text-muted-foreground mt-1">{x.desc}</div>
           </div>
-        </div>
-      </Section>
+        ))}
+      </div>
+
+      {/* CTAs */}
+      <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+        <button className="px-8 py-4 rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition">
+          Get a Quote
+        </button>
+
+        <button className="px-8 py-4 rounded-lg border border-border bg-transparent hover:border-primary/60 hover:text-primary transition flex items-center justify-center gap-2">
+          <span className="opacity-90">WhatsApp Us</span>
+        </button>
+      </div>
+
+      <p className="mt-4 text-xs text-muted-foreground">
+        Response time: typically within 15–60 minutes during business hours.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       <Section background="subtle">
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
