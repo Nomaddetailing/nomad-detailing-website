@@ -84,18 +84,24 @@ export function CorporateFleetPage({ onNavigate }: CorporateFleetPageProps) {
       </p>
 
       {/* Support points */}
-      <div className="mt-8 grid gap-3 sm:grid-cols-3 max-w-4xl mx-auto text-left">
-        {[
-          { title: "Reliable scheduling", desc: "Pre-agreed slots with SOP-driven timing." },
-          { title: "Consistent standards", desc: "Same checklists, same finish, every visit." },
-          { title: "Clear reporting", desc: "Before/after photos + issues flagged early." },
-        ].map((x) => (
-          <div key={x.title} className="rounded-xl border border-border bg-card/40 p-4">
-            <div className="font-medium">{x.title}</div>
-            <div className="text-sm text-muted-foreground mt-1">{x.desc}</div>
-          </div>
-        ))}
+<div className="mt-10 mx-auto max-w-5xl">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+    {[
+      { title: "Reliable scheduling", desc: "Pre-agreed slots with SOP-driven timing." },
+      { title: "Consistent standards", desc: "Same checklists, same finish, every visit." },
+      { title: "Clear reporting", desc: "Before/after photos + issues flagged early." },
+    ].map((x) => (
+      <div
+        key={x.title}
+        className="h-full rounded-2xl border border-border bg-card/40 p-5"
+      >
+        <div className="text-base font-semibold">{x.title}</div>
+        <div className="mt-2 text-sm text-muted-foreground">{x.desc}</div>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* CTAs */}
       <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
