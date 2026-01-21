@@ -165,72 +165,76 @@ const scrollToQuote = () => {
       </Section>
 
       <Section>
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border rounded-2xl p-10 md:p-12">
-            <div className="space-y-2">
-              <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="bg-card border border-border rounded-xl p-10 md:p-12">
+            {/* Header */}
+            <div className="space-y-3">
+              <h2 className="text-2xl lg:text-3xl font-semibold">
                 How Corporate / Fleet Engagement Works
               </h2>
-              <p className="text-sm md:text-base text-foreground/70">
+              <p className="text-muted-foreground">
                 Simple, predictable, and designed for ongoing fleet operations.
               </p>
             </div>
       
             {/* Steps */}
-            <div className="mt-8 space-y-5">
-              {[
-                {
-                  n: "1",
-                  title: "Share your requirements",
-                  desc: "Vehicle count, locations, and frequency requirements.",
-                },
-                {
-                  n: "2",
-                  title: "We propose a plan",
-                  desc: "A tailored scope, schedule, and service standards.",
-                },
-                {
-                  n: "3",
-                  title: "We execute on-site",
-                  desc: "Reliable communication and consistent outcomes.",
-                },
-              ].map((item) => (
-                <div key={item.n} className="flex gap-4">
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground">
-                    {item.n}
-                  </div>
-      
-                  <div className="space-y-1">
-                    <div className="font-medium text-foreground">{item.title}</div>
-                    <div className="text-sm md:text-base text-foreground/70 leading-relaxed">
-                      {item.desc}
-                    </div>
-                  </div>
+            <ol className="mt-8 space-y-6">
+              <li className="flex gap-4">
+                <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                  1
                 </div>
-              ))}
-            </div>
+                <div>
+                  <div className="font-medium">Share your requirements</div>
+                  <p className="mt-1 text-muted-foreground leading-relaxed">
+                    Vehicle count, locations, and frequency requirements.
+                  </p>
+                </div>
+              </li>
+      
+              <li className="flex gap-4">
+                <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                  2
+                </div>
+                <div>
+                  <div className="font-medium">We propose a plan</div>
+                  <p className="mt-1 text-muted-foreground leading-relaxed">
+                    A tailored scope, schedule, and service standards.
+                  </p>
+                </div>
+              </li>
+      
+              <li className="flex gap-4">
+                <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                  3
+                </div>
+                <div>
+                  <div className="font-medium">We execute on-site</div>
+                  <p className="mt-1 text-muted-foreground leading-relaxed">
+                    Reliable communication and consistent outcomes.
+                  </p>
+                </div>
+              </li>
+            </ol>
       
             {/* CTA row */}
-            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="mt-10 pt-8 border-t border-border/60 flex flex-col sm:flex-row sm:items-center gap-4">
               <PrimaryButton onClick={() => onNavigate("contact")}>
                 Request a Quote
               </PrimaryButton>
       
               <a
                 href="mailto:hello@nomaddetailing.com"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-foreground/80 hover:text-foreground hover:border-primary/60 transition-colors"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <span>Email us</span>
                 <ArrowRight size={18} />
               </a>
             </div>
       
-            {/* Divider + note */}
-            <div className="mt-8 pt-6 border-t border-border">
-              <p className="text-sm text-foreground/60">
-                Outside Klang Valley? We can still support you — request a custom quote.
-              </p>
-            </div>
+            {/* Footer note */}
+            <p className="mt-6 text-sm text-muted-foreground">
+              Outside Klang Valley? We can still support you — request a custom quote.
+            </p>
           </div>
         </div>
       </Section>
