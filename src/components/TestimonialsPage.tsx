@@ -83,9 +83,9 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
               )}
             </div>
           </div>
-
+        
           {/* Supporting testimonials */}
-          <div className="grid md:grid-cols-2 gap-8 mt-10">
+          <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
             {rest.map((t, idx) => (
               <div
                 key={idx}
@@ -103,11 +103,13 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
               </div>
             ))}
           </div>
-
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+        
+          {/* CTA */}
+          <div className="mt-14 md:mt-16 pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-center gap-4">
             <PrimaryButton onClick={() => onNavigate("booking")}>
               Request Booking
             </PrimaryButton>
+        
             <button
               onClick={() => onNavigate("gallery")}
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -117,6 +119,7 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
             </button>
           </div>
         </div>
+
       </Section>
     </div>
   );
