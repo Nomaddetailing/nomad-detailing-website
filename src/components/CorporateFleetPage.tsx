@@ -176,11 +176,44 @@ const scrollToQuote = () => {
               </div>
       
               {/* Steps */}
-              <ol className="space-y-3 text-muted-foreground leading-relaxed list-decimal list-outside pl-5">
-                <li>Share your vehicle count, locations, and frequency requirements.</li>
-                <li>We propose a tailored scope, schedule, and service standards.</li>
-                <li>We execute on-site with reliable communication and consistent outcomes.</li>
-              </ol>
+                <ol className="mt-8 space-y-6">
+                  <li className="flex gap-4">
+                    <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                      1
+                    </div>
+                    <div>
+                      <div className="font-medium">Share your requirements</div>
+                      <p className="mt-1 text-muted-foreground leading-relaxed">
+                        Vehicle count, locations, and frequency requirements.
+                      </p>
+                    </div>
+                  </li>
+          
+                  <li className="flex gap-4">
+                    <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                      2
+                    </div>
+                    <div>
+                      <div className="font-medium">We propose a plan</div>
+                      <p className="mt-1 text-muted-foreground leading-relaxed">
+                        A tailored scope, schedule, and service standards.
+                      </p>
+                    </div>
+                  </li>
+          
+                  <li className="flex gap-4">
+                    <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                      3
+                    </div>
+                    <div>
+                      <div className="font-medium">We execute on-site</div>
+                      <p className="mt-1 text-muted-foreground leading-relaxed">
+                        Reliable communication and consistent outcomes.
+                      </p>
+                    </div>
+                  </li>
+                </ol>
+
       
               {/* CTA Row */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
