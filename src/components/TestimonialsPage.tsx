@@ -56,78 +56,70 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
   ];
 
   return (
-    <div>
-      <Section>
-        <div className="text-center mb-12">
-          <p className="text-sm text-muted-foreground mb-4 tracking-wider uppercase">
-            Testimonials
+  <div>
+    <Section>
+      <div className="text-center mb-12">
+        <p className="text-sm text-muted-foreground mb-4 tracking-wider uppercase">
+          Testimonials
+        </p>
+        <h1 className="text-4xl lg:text-5xl mb-4 tracking-tight">
+          What Our Customers Say
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          Real feedback from customers who trusted us with their vehicles.
+        </p>
+      </div>
+
+      <div className="max-w-4xl mx-auto space-y-12">
+        <div className="bg-card border border-border rounded-xl p-10 lg:p-12 shadow-sm shadow-black/30">
+          <p className="text-xl lg:text-2xl leading-relaxed italic text-foreground/90">
+            “{anchor.quote}”
           </p>
-          <h1 className="text-4xl lg:text-5xl mb-4 tracking-tight">
-            What Our Customers Say
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Real feedback from customers who trusted us with their vehicles.
-          </p>
+          <div className="mt-8">
+            <p className="text-base font-medium">{anchor.author}</p>
+            {anchor.vehicle && (
+              <p className="text-sm text-muted-foreground">{anchor.vehicle}</p>
+            )}
+          </div>
         </div>
 
-        {/* Anchor testimonial + supporting grid + CTA */}
-        <div className="max-w-4xl mx-auto space-y-12">
-          {/* Anchor testimonial */}
-          <div className="bg-card border border-border rounded-xl p-10 lg:p-12 shadow-sm shadow-black/30">
-            <p className="text-xl lg:text-2xl leading-relaxed italic text-foreground/90">
-              “{anchor.quote}”
-            </p>
-            <div className="mt-8">
-              <p className="text-base font-medium">{anchor.author}</p>
-              {anchor.vehicle && (
-                <p className="text-sm text-muted-foreground">{anchor.vehicle}</p>
-              )}
-            </div>
-          </div>
-        
-          {/* Supporting testimonials */}
-          <div className="grid md:grid-cols-2 gap-8">
-            {rest.map((t, idx) => (
-              <div
-                key={idx}
-                className="bg-card/50 border border-border rounded-xl p-8 space-y-4 shadow-sm shadow-black/20"
-              >
-                <p className="text-muted-foreground leading-relaxed italic">
-                  “{t.quote}”
-                </p>
-                <div>
-                  <p className="font-medium">{t.author}</p>
-                  {t.vehicle && (
-                    <p className="text-sm text-muted-foreground">{t.vehicle}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        
-          {/* Divider */}
-          <div className="mt-16 mb-10 h-px w-full bg-border" />
-          
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <PrimaryButton onClick={() => onNavigate("booking")}>
-              Request Booking
-            </PrimaryButton>
-          
-            <button
-              onClick={() => onNavigate("gallery")}
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+        <div className="grid md:grid-cols-2 gap-8">
+          {rest.map((t, idx) => (
+            <div
+              key={idx}
+              className="bg-card/50 border border-border rounded-xl p-8 space-y-4 shadow-sm shadow-black/20"
             >
-              <span>View Our Work</span>
-              <ArrowRight size={18} />
-            </button>
-          </div>
-
-          </div>
+              <p className="text-muted-foreground leading-relaxed italic">
+                “{t.quote}”
+              </p>
+              <div>
+                <p className="font-medium">{t.author}</p>
+                {t.vehicle && (
+                  <p className="text-sm text-muted-foreground">{t.vehicle}</p>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
 
+        <div className="h-px w-full bg-border" />
 
-      </Section>
-    </div>
-  );
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <PrimaryButton onClick={() => onNavigate("booking")}>
+            Request Booking
+          </PrimaryButton>
+
+          <button
+            onClick={() => onNavigate("gallery")}
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <span>View Our Work</span>
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      </div>
+    </Section>
+  </div>
+);
+
 }
