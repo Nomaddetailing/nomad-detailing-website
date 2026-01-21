@@ -166,30 +166,51 @@ const scrollToQuote = () => {
 
       <Section>
         <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border rounded-xl p-10">
-            <h2 className="text-2xl lg:text-3xl mb-4">How Corporate / Fleet Engagement Works</h2>
-            <ol className="space-y-4 text-muted-foreground leading-relaxed list-decimal list-inside">
-              <li>Share your vehicle count, locations, and frequency requirements.</li>
-              <li>We propose a tailored scope, schedule, and service standards.</li>
-              <li>We execute on-site with reliable communication and consistent outcomes.</li>
-            </ol>
-
-            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
-              <PrimaryButton onClick={() => onNavigate("contact")}>Request a Quote</PrimaryButton>
-              <a
-                href="mailto:hello@nomaddetailing.com"
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <span>Email us</span>
-                <ArrowRight size={18} />
-              </a>
+          <div className="bg-card border border-border rounded-xl p-8 sm:p-10">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl lg:text-3xl">How Corporate / Fleet Engagement Works</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Simple, predictable, and designed for ongoing fleet operations.
+                </p>
+              </div>
+      
+              {/* Steps */}
+              <ol className="space-y-3 text-muted-foreground leading-relaxed list-decimal list-outside pl-5">
+                <li>Share your vehicle count, locations, and frequency requirements.</li>
+                <li>We propose a tailored scope, schedule, and service standards.</li>
+                <li>We execute on-site with reliable communication and consistent outcomes.</li>
+              </ol>
+      
+              {/* CTA Row */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <PrimaryButton
+                  onClick={() => onNavigate("contact")}
+                  className="h-12 px-8 inline-flex items-center justify-center"
+                >
+                  Request a Quote
+                </PrimaryButton>
+      
+                <a
+                  href="mailto:hello@nomaddetailing.com"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <span>Email us</span>
+                  <ArrowRight size={18} />
+                </a>
+              </div>
+      
+              {/* Helper note separated for breathing room */}
+              <div className="pt-4 border-t border-border">
+                <p className="text-sm text-muted-foreground">
+                  Outside Klang Valley? We can still support you — request a custom quote.
+                </p>
+              </div>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Outside Klang Valley? We can still support you — request a custom quote.
-            </p>
           </div>
         </div>
       </Section>
+
 
       <Section background="subtle">
   <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-24">
