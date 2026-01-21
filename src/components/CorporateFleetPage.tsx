@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Building2, CalendarClock, ClipboardCheck, ArrowRight } from "lucide-react";
 import { Section } from "./ui/Section";
 import { PrimaryButton } from "./ui/PrimaryButton";
@@ -9,6 +9,12 @@ interface CorporateFleetPageProps {
 }
 
 export function CorporateFleetPage({ onNavigate }: CorporateFleetPageProps) {
+  const quoteRef = useRef<HTMLDivElement | null>(null);
+
+const scrollToQuote = () => {
+  quoteRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
   const [form, setForm] = useState({
     companyName: '',
     contactPerson: '',
@@ -67,59 +73,62 @@ export function CorporateFleetPage({ onNavigate }: CorporateFleetPageProps) {
 
   return (
     <div>
-      <section className="relative">
-  <div className="mx-auto max-w-6xl px-6 py-16 lg:py-20">
-    <div className="text-center">
+      <Section>
+  <div className="max-w-6xl mx-auto px-6">
+    <div className="text-center space-y-6">
       <p className="text-xs tracking-[0.2em] text-muted-foreground uppercase">
         Corporate / Fleet
       </p>
 
-      <h1 className="mt-4 text-4xl lg:text-6xl font-semibold leading-[1.05]">
+      <h1 className="text-4xl lg:text-6xl font-semibold leading-[1.05]">
         Consistent, Accountable Mobile Detailing for Multiple Vehicles
       </h1>
 
-      <p className="mt-5 text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto">
+      <p className="text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto">
         Tailored solutions for fleets, dealerships, and property managers — built around reliable scheduling,
         consistent standards, and clear communication.
       </p>
 
       {/* Support points */}
-<div className="mt-10 mx-auto max-w-5xl">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-    {[
-      { title: "Reliable scheduling", desc: "Pre-agreed slots with SOP-driven timing." },
-      { title: "Consistent standards", desc: "Same checklists, same finish, every visit." },
-      { title: "Clear reporting", desc: "Before/after photos + issues flagged early." },
-    ].map((x) => (
-      <div
-        key={x.title}
-        className="h-full rounded-2xl border border-border bg-card/40 p-5"
-      >
-        <div className="text-base font-semibold">{x.title}</div>
-        <div className="mt-2 text-sm text-muted-foreground">{x.desc}</div>
+      <div className="pt-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-5xl mx-auto">
+          {[
+            { title: "Reliable scheduling", desc: "Pre-agreed slots with SOP-driven timing." },
+            { title: "Consistent standards", desc: "Same checklists, same finish, every visit." },
+            { title: "Clear reporting", desc: "Before/after photos + issues flagged early." },
+          ].map((x) => (
+            <div
+              key={x.title}
+              className="rounded-2xl border border-border bg-card/40 p-6 min-h-[110px]"
+            >
+              <div className="text-base font-semibold">{x.title}</div>
+              <div className="mt-2 text-sm text-muted-foreground leading-relaxed">{x.desc}</div>
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
-
 
       {/* CTAs */}
-      <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
-        <button className="px-8 py-4 rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition">
-          Get a Quote
-        </button>
+      <div className="pt-2">
+        <div className="mt-8 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-4">
+          <PrimaryButton onClick={scrollToQuote}>
+            Get a Quote
+          </PrimaryButton>
 
-        <button className="px-8 py-4 rounded-lg border border-border bg-transparent hover:border-primary/60 hover:text-primary transition flex items-center justify-center gap-2">
-          <span className="opacity-90">WhatsApp Us</span>
-        </button>
+          <WhatsAppButton
+            text="WhatsApp Us"
+            variant="outline"
+            className="w-full sm:w-auto"
+          />
+        </div>
+
+        <p className="mt-4 text-xs text-muted-foreground">
+          Response time: typically within 15–60 minutes during business hours.
+        </p>
       </div>
-
-      <p className="mt-4 text-xs text-muted-foreground">
-        Response time: typically within 15–60 minutes during business hours.
-      </p>
     </div>
   </div>
-</section>
+</Section>
 
 
       <Section background="subtle">
@@ -176,8 +185,8 @@ export function CorporateFleetPage({ onNavigate }: CorporateFleetPageProps) {
       </Section>
 
       <Section background="subtle">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border rounded-xl p-10">
+  <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-24">
+    <div className="bg-card border border-border rounded-xl p-10">
             <h2 className="text-2xl lg:text-3xl mb-2">Request a Fleet Quote</h2>
             <p className="text-muted-foreground mb-8">
               Share your requirements and we’ll respond via WhatsApp with a tailored scope and schedule.
