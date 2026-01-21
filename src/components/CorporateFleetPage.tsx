@@ -249,7 +249,7 @@ const scrollToQuote = () => {
 
       <Section background="subtle">
         <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-24 px-6">
-          <div className="bg-card border border-border rounded-2xl p-8 md:p-10">
+          <div className="bg-card border border-border rounded-xl p-8 md:p-10">
             {/* Header */}
             <div className="space-y-2">
               <h2 className="text-2xl lg:text-3xl font-semibold">Request a Fleet Quote</h2>
