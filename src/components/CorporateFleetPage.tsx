@@ -128,7 +128,7 @@ const scrollToQuote = () => {
         </div>
 
 
-        <p className="mt-4 text-xs text-muted-foreground">
+        <p className="mt-6 text-xs text-muted-foreground text-center">
           Response time: typically within 15–60 minutes during business hours.
         </p>
       </div>
