@@ -105,21 +105,24 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
             ))}
           </div>
         
-          {/* CTA area */}
-          <div className="pt-10 border-t border-border/60">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <PrimaryButton onClick={() => onNavigate("booking")}>
-                Request Booking
-              </PrimaryButton>
-        
-              <button
-                onClick={() => onNavigate("gallery")}
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <span>View Our Work</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
+          {/* Divider */}
+          <div className="mt-16 mb-10 h-px w-full bg-border" />
+          
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <PrimaryButton onClick={() => onNavigate("booking")}>
+              Request Booking
+            </PrimaryButton>
+          
+            <button
+              onClick={() => onNavigate("gallery")}
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <span>View Our Work</span>
+              <ArrowRight size={18} />
+            </button>
+          </div>
+
           </div>
         </div>
 
