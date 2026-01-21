@@ -110,22 +110,29 @@ const scrollToQuote = () => {
 
       {/* CTAs */}
       <div className="pt-2">
-        <div className="mt-8 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-4">
-          <PrimaryButton onClick={scrollToQuote}>
+        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Secondary CTA */}
+          <PrimaryButton
+            variant="outline"
+            onClick={scrollToQuote}
+            className="h-12 px-8"
+          >
             Get a Quote
           </PrimaryButton>
-
+        
+          {/* Primary CTA */}
           <WhatsAppButton
             text="WhatsApp Us"
-            variant="outline"
-            className="w-full sm:w-auto"
+            className="h-12 px-10 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20"
           />
         </div>
+
 
         <p className="mt-4 text-xs text-muted-foreground">
           Response time: typically within 15–60 minutes during business hours.
         </p>
       </div>
+      
     </div>
   </div>
 </Section>
