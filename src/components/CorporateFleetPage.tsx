@@ -178,7 +178,7 @@ const scrollToQuote = () => {
               {/* Steps */}
                 <ol className="mt-8 space-y-6">
                   <li className="flex gap-4">
-                    <div className="mt-0.5 h-7 w-7 shrink-0 rounded-full border border-border/70 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
+                    <div className="mt-0.5 h-7 w-7 shrink-0 bg-background/40 flex items-center justify-center text-sm text-muted-foreground">
                       1
                     </div>
                     <div>
