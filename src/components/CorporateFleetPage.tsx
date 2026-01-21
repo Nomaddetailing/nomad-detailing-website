@@ -166,50 +166,75 @@ const scrollToQuote = () => {
 
       <Section>
         <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border rounded-xl p-8 sm:p-10">
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl lg:text-3xl">How Corporate / Fleet Engagement Works</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Simple, predictable, and designed for ongoing fleet operations.
-                </p>
-              </div>
+          <div className="bg-card border border-border rounded-2xl p-10 md:p-12">
+            <div className="space-y-2">
+              <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight">
+                How Corporate / Fleet Engagement Works
+              </h2>
+              <p className="text-sm md:text-base text-foreground/70">
+                Simple, predictable, and designed for ongoing fleet operations.
+              </p>
+            </div>
       
-              {/* Steps */}
-              <ol className="space-y-3 text-muted-foreground leading-relaxed list-decimal list-outside pl-5">
-                <li>Share your vehicle count, locations, and frequency requirements.</li>
-                <li>We propose a tailored scope, schedule, and service standards.</li>
-                <li>We execute on-site with reliable communication and consistent outcomes.</li>
-              </ol>
+            {/* Steps */}
+            <div className="mt-8 space-y-5">
+              {[
+                {
+                  n: "1",
+                  title: "Share your requirements",
+                  desc: "Vehicle count, locations, and frequency requirements.",
+                },
+                {
+                  n: "2",
+                  title: "We propose a plan",
+                  desc: "A tailored scope, schedule, and service standards.",
+                },
+                {
+                  n: "3",
+                  title: "We execute on-site",
+                  desc: "Reliable communication and consistent outcomes.",
+                },
+              ].map((item) => (
+                <div key={item.n} className="flex gap-4">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background text-sm font-semibold text-foreground">
+                    {item.n}
+                  </div>
       
-              {/* CTA Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <PrimaryButton
-                  onClick={() => onNavigate("contact")}
-                  className="h-12 px-8 inline-flex items-center justify-center"
-                >
-                  Request a Quote
-                </PrimaryButton>
+                  <div className="space-y-1">
+                    <div className="font-medium text-foreground">{item.title}</div>
+                    <div className="text-sm md:text-base text-foreground/70 leading-relaxed">
+                      {item.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
       
-                <a
-                  href="mailto:hello@nomaddetailing.com"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <span>Email us</span>
-                  <ArrowRight size={18} />
-                </a>
-              </div>
+            {/* CTA row */}
+            <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4">
+              <PrimaryButton onClick={() => onNavigate("contact")}>
+                Request a Quote
+              </PrimaryButton>
       
-              {/* Helper note separated for breathing room */}
-              <div className="pt-4 border-t border-border">
-                <p className="text-sm text-muted-foreground">
-                  Outside Klang Valley? We can still support you — request a custom quote.
-                </p>
-              </div>
+              <a
+                href="mailto:hello@nomaddetailing.com"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-foreground/80 hover:text-foreground hover:border-primary/60 transition-colors"
+              >
+                <span>Email us</span>
+                <ArrowRight size={18} />
+              </a>
+            </div>
+      
+            {/* Divider + note */}
+            <div className="mt-8 pt-6 border-t border-border">
+              <p className="text-sm text-foreground/60">
+                Outside Klang Valley? We can still support you — request a custom quote.
+              </p>
             </div>
           </div>
         </div>
       </Section>
+
 
 
       <Section background="subtle">
