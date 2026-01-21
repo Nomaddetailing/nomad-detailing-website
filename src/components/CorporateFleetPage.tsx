@@ -248,131 +248,179 @@ const scrollToQuote = () => {
 
 
       <Section background="subtle">
-  <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-24">
-    <div className="bg-card border border-border rounded-xl p-10">
-            <h2 className="text-2xl lg:text-3xl mb-2">Request a Fleet Quote</h2>
-            <p className="text-muted-foreground mb-8">
-              Share your requirements and we’ll respond via WhatsApp with a tailored scope and schedule.
-            </p>
-
-            {submitted ? (
-              <div className="p-6 rounded-lg border border-border bg-background">
-                <p className="text-lg">Thanks — we’ve received your fleet enquiry.</p>
-                <p className="text-muted-foreground mt-2">We’ll follow up via WhatsApp shortly.</p>
-              </div>
-            ) : (
-              <form onSubmit={submitFleet} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-sm">Company Name *</label>
-                    <input
-                      name="companyName"
-                      value={form.companyName}
-                      onChange={onChange}
-                      required
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm">Contact Person *</label>
-                    <input
-                      name="contactPerson"
-                      value={form.contactPerson}
-                      onChange={onChange}
-                      required
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    />
-                  </div>
+        <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-24 px-6">
+          <div className="bg-card border border-border rounded-2xl p-8 md:p-10">
+            {/* Header */}
+            <div className="space-y-2">
+              <h2 className="text-2xl lg:text-3xl font-semibold">Request a Fleet Quote</h2>
+              <p className="text-muted-foreground">
+                Share your requirements and we’ll respond via WhatsApp with a tailored scope and schedule.
+              </p>
+              <p className="text-xs text-muted-foreground/80">
+                Fields marked with <span className="text-foreground">*</span> are required.
+              </p>
+            </div>
+      
+            <div className="mt-8">
+              {submitted ? (
+                <div className="p-6 rounded-xl border border-border bg-background">
+                  <p className="text-lg font-medium">Thanks — we’ve received your fleet enquiry.</p>
+                  <p className="text-muted-foreground mt-2">We’ll follow up via WhatsApp shortly.</p>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-sm">WhatsApp Number *</label>
-                    <input
-                      name="whatsappNumber"
-                      value={form.whatsappNumber}
-                      onChange={onChange}
-                      required
-                      placeholder="e.g. +6012xxxxxxx"
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    />
+              ) : (
+                <form onSubmit={submitFleet} className="space-y-6">
+                  {/* Form grid */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm">
+                        Company Name <span className="text-foreground">*</span>
+                      </label>
+                      <input
+                        name="companyName"
+                        value={form.companyName}
+                        onChange={onChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2">
+                      <label className="block text-sm">
+                        Contact Person <span className="text-foreground">*</span>
+                      </label>
+                      <input
+                        name="contactPerson"
+                        value={form.contactPerson}
+                        onChange={onChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2">
+                      <label className="block text-sm">
+                        WhatsApp Number <span className="text-foreground">*</span>
+                      </label>
+                      <input
+                        name="whatsappNumber"
+                        value={form.whatsappNumber}
+                        onChange={onChange}
+                        required
+                        placeholder="e.g. +6012xxxxxxx"
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2">
+                      <label className="block text-sm">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={onChange}
+                        placeholder="name@company.com"
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2">
+                      <label className="block text-sm">
+                        Number of Vehicles <span className="text-foreground">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        name="numberOfVehicles"
+                        value={form.numberOfVehicles}
+                        onChange={onChange}
+                        required
+                        placeholder="e.g. 12"
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2">
+                      <label className="block text-sm">
+                        Service Frequency <span className="text-foreground">*</span>
+                      </label>
+                      <select
+                        name="serviceFrequency"
+                        value={form.serviceFrequency}
+                        onChange={onChange}
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      >
+                        <option value="">Select frequency</option>
+                        <option value="One-off">One-off</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Ad-hoc">Ad-hoc</option>
+                      </select>
+                    </div>
+      
+                    {/* Full width */}
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="block text-sm">Locations</label>
+                      <input
+                        name="locations"
+                        value={form.locations}
+                        onChange={onChange}
+                        placeholder="e.g. PJ + KL, multiple sites"
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition"
+                      />
+                    </div>
+      
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="block text-sm">Notes</label>
+                      <textarea
+                        name="notes"
+                        value={form.notes}
+                        onChange={onChange}
+                        rows={4}
+                        placeholder="Any constraints, preferred time windows, access notes, etc."
+                        className="w-full px-4 py-3 rounded-lg bg-input-background border border-border
+                                   focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/60 transition resize-y"
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={onChange}
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    />
+      
+                  {/* CTA row */}
+                  <div className="pt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <PrimaryButton
+                        type="submit"
+                        className="w-full h-12 flex items-center justify-center"
+                        disabled={submitting}
+                      >
+                        {submitting ? "Submitting…" : "Submit Enquiry"}
+                      </PrimaryButton>
+      
+                      {/* Make WhatsApp look like a real button (not an input) */}
+                      <WhatsAppButton
+                        text="WhatsApp Us"
+                        variant="outline"
+                        className="w-full h-12 flex items-center justify-center border-border/80 hover:border-primary/60"
+                      />
+                    </div>
+      
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      Typical response time: 15–60 minutes during business hours.
+                    </p>
                   </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-sm">Number of Vehicles *</label>
-                    <input
-                      type="number"
-                      min={1}
-                      name="numberOfVehicles"
-                      value={form.numberOfVehicles}
-                      onChange={onChange}
-                      required
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm">Service Frequency *</label>
-                    <select
-                      name="serviceFrequency"
-                      value={form.serviceFrequency}
-                      onChange={onChange}
-                      required
-                      className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                    >
-                      <option value="">Select frequency</option>
-                      <option value="One-off">One-off</option>
-                      <option value="Weekly">Weekly</option>
-                      <option value="Monthly">Monthly</option>
-                      <option value="Ad-hoc">Ad-hoc</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm">Locations</label>
-                  <input
-                    name="locations"
-                    value={form.locations}
-                    onChange={onChange}
-                    placeholder="e.g. PJ + KL, multiple sites"
-                    className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm">Notes</label>
-                  <textarea
-                    name="notes"
-                    value={form.notes}
-                    onChange={onChange}
-                    rows={5}
-                    className="w-full px-4 py-3 bg-input-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
-                  />
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <PrimaryButton type="submit" className="w-full sm:w-auto" disabled={submitting}>
-                    {submitting ? 'Submitting…' : 'Submit Enquiry'}
-                  </PrimaryButton>
-                  <WhatsAppButton text="WhatsApp Us" variant="outline" className="w-full sm:w-auto" />
-                </div>
-              </form>
-            )}
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </Section>
+
     </div>
   );
 }
