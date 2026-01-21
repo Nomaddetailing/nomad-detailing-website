@@ -70,9 +70,10 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
           </p>
         </div>
 
-        {/* Anchor testimonial */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card border border-border rounded-xl p-10 lg:p-12">
+        {/* Anchor testimonial + supporting grid + CTA */}
+        <div className="max-w-4xl mx-auto space-y-12">
+          {/* Anchor testimonial */}
+          <div className="bg-card border border-border rounded-xl p-10 lg:p-12 shadow-sm shadow-black/30">
             <p className="text-xl lg:text-2xl leading-relaxed italic text-foreground/90">
               “{anchor.quote}”
             </p>
@@ -85,11 +86,11 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
           </div>
         
           {/* Supporting testimonials */}
-          <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {rest.map((t, idx) => (
               <div
                 key={idx}
-                className="bg-card/60 border border-border rounded-lg p-8 space-y-4"
+                className="bg-card/50 border border-border rounded-xl p-8 space-y-4 shadow-sm shadow-black/20"
               >
                 <p className="text-muted-foreground leading-relaxed italic">
                   “{t.quote}”
@@ -104,21 +105,24 @@ export function TestimonialsPage({ onNavigate }: TestimonialsPageProps) {
             ))}
           </div>
         
-          {/* CTA */}
-          <div className="mt-14 md:mt-16 pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <PrimaryButton onClick={() => onNavigate("booking")}>
-              Request Booking
-            </PrimaryButton>
+          {/* CTA area */}
+          <div className="pt-10 border-t border-border/60">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <PrimaryButton onClick={() => onNavigate("booking")}>
+                Request Booking
+              </PrimaryButton>
         
-            <button
-              onClick={() => onNavigate("gallery")}
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span>View Our Work</span>
-              <ArrowRight size={18} />
-            </button>
+              <button
+                onClick={() => onNavigate("gallery")}
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span>View Our Work</span>
+                <ArrowRight size={18} />
+              </button>
+            </div>
           </div>
         </div>
+
 
       </Section>
     </div>
