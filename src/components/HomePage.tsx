@@ -12,6 +12,9 @@ interface HomePageProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
 }
 
+const buttonBase =
+  "h-12 px-6 rounded-lg inline-flex items-center justify-center gap-2 text-base font-medium transition-colors";
+
 export function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="bg-background">
@@ -43,7 +46,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <PrimaryButton onClick={() => onNavigate('booking')}>
+              <PrimaryButton onClick={() => onNavigate('booking')} className={`${buttonBase} bg-primary text-primary-foreground hover:bg-primary/90`}>
                 Request Booking
               </PrimaryButton>
               <WhatsAppButton variant="secondary" />
