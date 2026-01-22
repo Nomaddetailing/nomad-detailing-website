@@ -13,7 +13,7 @@ interface HomePageProps {
 }
 
 const buttonBase =
-  "h-12 px-6 rounded-lg inline-flex items-center justify-center gap-2 text-base font-medium transition-colors";
+  "h-12 px-8 rounded-lg inline-flex items-center justify-center gap-2 text-base font-medium transition-colors";
 
 export function HomePage({ onNavigate }: HomePageProps) {
   return (
@@ -49,7 +49,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
               <PrimaryButton onClick={() => onNavigate('booking')} className={`${buttonBase} bg-primary text-primary-foreground hover:bg-primary/90`}>
                 Request Booking
               </PrimaryButton>
-              <WhatsAppButton variant="secondary" />
+              <WhatsAppButton variant="secondary"  className="h-12 px-8"/>
             </div>
           </div>
         </div>
