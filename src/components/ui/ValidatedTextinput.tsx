@@ -7,6 +7,20 @@ interface InputProps extends React.ComponentProps<"input"> {
   validationState?: ValidationState;
 }
 
+const base =
+  "w-full px-4 py-3 rounded-lg border bg-card focus:outline-none transition";
+
+const stateStyles = {
+  default: "border-border focus:border-primary",
+  valid: "border-emerald-500 focus:border-emerald-500",
+  invalid: "border-red-500 focus:border-red-500",
+};
+
+<input
+  {...props}
+  className={`${base} ${stateStyles[validationState]}`}
+/>
+
 function Input({
   className,
   type,
