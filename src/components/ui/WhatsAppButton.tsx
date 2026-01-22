@@ -7,6 +7,9 @@ interface WhatsAppButtonProps {
   className?: string;
 }
 
+const baseStyles =
+  "inline-flex h-12 items-center justify-center gap-2 px-8 rounded-lg transition-all duration-200";
+
 export function WhatsAppButton({ 
   text = 'WhatsApp Us', 
   variant = 'outline',
