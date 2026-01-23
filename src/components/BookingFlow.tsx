@@ -928,6 +928,25 @@ const submit = async () => {
                 </div>
               </div>
 
+              <label className="flex items-start gap-3 text-sm text-muted-foreground">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 accent-primary"
+                />
+                <span>
+                  I agree to the{" "}
+                  <a href="/privacy-policy" className="underline hover:text-foreground">
+                    Privacy Policy
+                  </a>{" "}
+                  and{" "}
+                  <a href="/terms" className="underline hover:text-foreground">
+                    Terms & Conditions
+                  </a>, and consent to Nomad Detailing contacting me via WhatsApp regarding my booking.
+                </span>
+              </label>
+
+
               <div className="flex items-center justify-between pt-6">
                 <button onClick={goBack} className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="mr-2" size={18} /> Back
