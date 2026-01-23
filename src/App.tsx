@@ -37,17 +37,30 @@ export type BookingPreset = {
   variant?: string;
 };
 
+export type NavMeta = {
+  returnTo?: Page;
+  returnAnchorId?: string; // optional
+};
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [bookingPreset, setBookingPreset] = useState<BookingPreset>({});
 
-  const handleNavigate = (page: Page, preset?: BookingPreset) => {
-    if (page === "booking") {
-      setBookingPreset(preset ?? {});
-    }
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const handleNavigate = (page: Page, preset?: BookingPreset, meta?: NavMeta) => {
+  if (page === "booking") setBookingPreset(preset ?? {});
+  setCurrentPage(page);
+
+  // store return target (simple approach: sessionStorage)
+  if (meta?.returnTo) {
+    sessionStorage.setItem("nav:returnTo", meta.returnTo);
+    if (meta.returnAnchorId) sessionStorage.setItem("nav:returnAnchorId", meta.returnAnchorId);
+  } else {
+    sessionStorage.removeItem("nav:returnTo");
+    sessionStorage.removeItem("nav:returnAnchorId");
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
   return (
     <div className="min-h-screen bg-background text-foreground">
