@@ -120,5 +120,24 @@ export function PrivacyPolicyPage() {
         </section>
       </div>
     </Section>
+
+    <button
+      type="button"
+      onClick={() => {
+        const returnTo = (sessionStorage.getItem("nav:returnTo") as any) || "booking";
+        const anchor = sessionStorage.getItem("nav:returnAnchorId") || "";
+        onNavigate(returnTo);
+    
+        // after navigation renders, scroll to anchor
+        setTimeout(() => {
+          if (!anchor) return;
+          document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
+      }}
+      className="mt-10 underline text-muted-foreground hover:text-foreground"
+    >
+      Back to Booking
+    </button>
+
   );
 }
