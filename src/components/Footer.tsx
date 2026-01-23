@@ -121,13 +121,24 @@ export function Footer({ onNavigate }: FooterProps) {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Nomad Detailing. All rights reserved.
           </p>
-          <button
-            onClick={() => onNavigate('fleet')}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Corporate / Fleet Solutions
-          </button>
+        
+          <div className="flex gap-6">
+            <button
+              onClick={() => onNavigate("privacy")}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Privacy Policy
+            </button>
+        
+            <button
+              onClick={() => onNavigate("terms")}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Terms & Conditions
+            </button>
+          </div>
         </div>
+
       </div>
     </footer>
   );
