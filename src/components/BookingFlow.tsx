@@ -383,8 +383,8 @@ const submit = async () => {
 
     consent_given: consent, //consent 
     consent_timestamp: new Date().toISOString(),
-    privacy_policy_version: PRIVACY_VERSION,
-    terms_version: TERMS_VERSION,
+    privacy_policy_version: "v1.0 (2026-01-23)", //privacy policy version details
+    terms_version: "v1.0 (2026-01-23)", //terms version details 
 
     source: preset?.service
       ? "services_page"
