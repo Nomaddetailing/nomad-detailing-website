@@ -929,17 +929,19 @@ const submit = async () => {
               </div>
 
               <label className="flex items-start gap-3 text-sm text-muted-foreground">
-                <input
-                  type="checkbox"
-                  required
-                  className="mt-1 accent-primary"
-                />
-              
+                <div id="booking-consent">
+                  {/* consent checkbox block here */}
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-1 accent-primary"
+                  />
+                </div>
                 <span>
                   I agree to the{" "}
                   <button
                     type="button"
-                    onClick={() => onNavigate("privacy")}
+                    onClick={() => onNavigate("privacy", undefined, { returnTo: "booking", returnAnchorId: "booking-consent" })}
                     className="underline hover:text-foreground"
                   >
                     Privacy Policy
@@ -947,7 +949,7 @@ const submit = async () => {
                   and{" "}
                   <button
                     type="button"
-                    onClick={() => onNavigate("terms")}
+                    onClick={() => onNavigate("terms", undefined, { returnTo: "booking", returnAnchorId: "booking-consent" })}
                     className="underline hover:text-foreground"
                   >
                     Terms & Conditions
