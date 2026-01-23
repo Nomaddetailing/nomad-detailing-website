@@ -43,6 +43,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // Ops
       'Status': 'New',
+
+      //consent
+      'Consent Given': !!b.consent_given,
+      'Consent Timestamp': b.consent_timestamp,
+      'Privacy Policy Version': b.privacy_policy_version,
+      'Terms Version': b.terms_version,
+
     } as Record<string, any>;
 
     // Remove undefined fields to avoid Airtable validation errors
