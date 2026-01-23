@@ -11,6 +11,9 @@ import { TestimonialsPage } from "./components/TestimonialsPage";
 import { CorporateFleetPage } from "./components/CorporateFleetPage";
 import { FloatingWhatsApp } from "./components/ui/FloatingWhatsApp";
 import { ScrollToTop } from "./components/ui/ScrollToTop";
+import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
+import { TermsPage } from "./components/TermsPage";
+
 
 type Page =
   | "home"
@@ -20,7 +23,9 @@ type Page =
   | "fleet"
   | "about"
   | "contact"
-  | "booking";
+  | "booking"
+  | "privacy"
+  | "terms";
 
 export type BookingPreset = {
   // Entry point context to remove redundant selections.
@@ -75,6 +80,12 @@ export default function App() {
         )}
         {currentPage === "booking" && (
           <BookingFlow onNavigate={handleNavigate} preset={bookingPreset} />
+        )}
+        {currentPage === "privacy" && (
+          <PrivacyPolicyPage onNavigate={handleNavigate} />
+        )}
+        {currentPage === "terms" && (
+          <TermsPage onNavigate={handleNavigate} />
         )}
       </main>
 
