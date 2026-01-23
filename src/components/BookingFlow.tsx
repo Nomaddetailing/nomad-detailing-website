@@ -934,17 +934,28 @@ const submit = async () => {
                   required
                   className="mt-1 accent-primary"
                 />
+              
                 <span>
                   I agree to the{" "}
-                  <a href="/privacy-policy" className="underline hover:text-foreground">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("privacy")}
+                    className="underline hover:text-foreground"
+                  >
                     Privacy Policy
-                  </a>{" "}
+                  </button>{" "}
                   and{" "}
-                  <a href="/terms" className="underline hover:text-foreground">
+                  <button
+                    type="button"
+                    onClick={() => onNavigate("terms")}
+                    className="underline hover:text-foreground"
+                  >
                     Terms & Conditions
-                  </a>, and consent to Nomad Detailing contacting me via WhatsApp regarding my booking.
+                  </button>
+                  , and consent to Nomad Detailing contacting me via WhatsApp regarding my booking.
                 </span>
               </label>
+
 
 
               <div className="flex items-center justify-between pt-6">
