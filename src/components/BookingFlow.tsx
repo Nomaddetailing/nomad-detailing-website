@@ -128,6 +128,7 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
   const [emailTouched, setEmailTouched] = useState(false);//email validation
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [consent, setConsent] = useState(false);//consent
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
 
   const [emailError, setEmailError] = useState('');
@@ -335,8 +336,11 @@ const validateContactStep = () => {
 };
 
 const submit = async () => {
-  console.log("SUBMIT CLICKED"); // debug
 
+  const PRIVACY_VERSION = "v1.0"; // update when policy changes
+  const TERMS_VERSION = "v1.0";
+  console.log("SUBMIT CLICKED"); // debug
+  
   setSubmitAttempted(true);
 
   const errors = validateContactStep();
@@ -376,6 +380,11 @@ const submit = async () => {
     customer_whatsapp: normalizedPhone,
     customer_email: bookingData.email?.trim() || null,
     notes: finalNotes?.trim() || null,
+
+    consent_given: consent, //consent 
+    consent_timestamp: new Date().toISOString(),
+    privacy_policy_version: PRIVACY_VERSION,
+    terms_version: TERMS_VERSION,
 
     source: preset?.service
       ? "services_page"
@@ -934,6 +943,8 @@ const submit = async () => {
                   <input
                     type="checkbox"
                     required
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
                     className="mt-1 accent-primary"
                   />
                 </div>
