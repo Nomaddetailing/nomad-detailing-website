@@ -1021,7 +1021,7 @@ const submit = async () => {
                       sessionStorage.setItem("nav:returnTo", "booking");
                       sessionStorage.setItem("nav:returnAnchorId", "booking-consent");
                     
-                      onNavigate("PrivacyPolicyPage");
+                      onNavigate("privacy");
                     }}
                     className="underline hover:text-foreground"
                     >
