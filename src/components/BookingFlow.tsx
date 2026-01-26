@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Check } from 'lucide-react';
 import { Section } from './ui/Section';
 import { PrimaryButton } from './ui/PrimaryButton';
@@ -161,6 +161,7 @@ export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [consent, setConsent] = useState(false);//consent
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const restoredRef = useRef(false);
 
   const [emailError, setEmailError] = useState('');
 
@@ -201,7 +202,8 @@ areaOther: "",
   const saved = readBookingState();
   if (!saved) return;
 
-  // Restore step + data + consent
+  restoredRef.current = true; // <-- critical
+
   setStep(saved.step);
   setBookingData(saved.bookingData);
   setConsent(saved.consent);
@@ -214,17 +216,14 @@ areaOther: "",
     }, 50);
   }
 
-  // Optional: clear it after restoring so it doesn't keep forcing contact step forever
   clearBookingState();
 }, []);
   //end of restoring form saved state functions
   
   // Initialize from entry preset.
   useEffect(() => {
-    // If we have a saved restore state, do NOT override it.
-    // (We already restored it in the mount effect.)
-    const saved = readBookingState();
-    if (saved) return;
+    // If we restored from sessionStorage, do not override with preset logic.
+    if (restoredRef.current) return;
   
     if (!preset) {
       setStep("category");
@@ -335,7 +334,7 @@ const shouldValidateEmailLive = (email: string) => {
           bookingData.name.trim() !== "" &&
           bookingData.phone.trim() !== "" &&
           isValidMYPhone(bookingData.phone) &&
-          isValidEmail(bookingData.email) &&
+          (bookingData.email.trim() === "" || isValidEmail(bookingData.email)) &&
           consent
         );
       default:
@@ -1011,17 +1010,18 @@ const submit = async () => {
                   <button
                     type="button"
                     onClick={() => {
-                    saveBookingState({
-                    step: "contact",
-                    bookingData,
-                    consent,
-                    returnAnchorId: "booking-consent",
-                    savedAt: new Date().toISOString(),
-                    });
+                      saveBookingState({
+                        step: "contact",
+                        bookingData,
+                        consent,
+                        returnAnchorId: "booking-consent",
+                        savedAt: new Date().toISOString(),
+                      });
                     
+                      sessionStorage.setItem("nav:returnTo", "booking");
+                      sessionStorage.setItem("nav:returnAnchorId", "booking-consent");
                     
-                    // IMPORTANT: use the actual page keys you use in App.tsx
-                    onNavigate("privacy-policy");
+                      onNavigate("privacy-policy");
                     }}
                     className="underline hover:text-foreground"
                     >
@@ -1031,16 +1031,18 @@ const submit = async () => {
                   <button
                     type="button"
                     onClick={() => {
-                    saveBookingState({
-                    step: "contact",
-                    bookingData,
-                    consent,
-                    returnAnchorId: "booking-consent",
-                    savedAt: new Date().toISOString(),
-                    });
+                      saveBookingState({
+                        step: "contact",
+                        bookingData,
+                        consent,
+                        returnAnchorId: "booking-consent",
+                        savedAt: new Date().toISOString(),
+                      });
                     
+                      sessionStorage.setItem("nav:returnTo", "booking");
+                      sessionStorage.setItem("nav:returnAnchorId", "booking-consent");
                     
-                    onNavigate("terms");
+                      onNavigate("terms");
                     }}
                     className="underline hover:text-foreground"
                     >
