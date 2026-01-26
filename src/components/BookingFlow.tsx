@@ -330,13 +330,14 @@ const shouldValidateEmailLive = (email: string) => {
     bookingData.preferredTime !== '' &&
     (bookingData.area !== 'Others' || bookingData.areaOther.trim() !== '')
   );
-      case 'contact':
-  return (
-    bookingData.name !== '' &&
-    bookingData.phone !== '' &&
-    isValidMYPhone(bookingData.phone) &&
-    isValidEmail(bookingData.email)
-  );
+      case "contact":
+        return (
+          bookingData.name.trim() !== "" &&
+          bookingData.phone.trim() !== "" &&
+          isValidMYPhone(bookingData.phone) &&
+          isValidEmail(bookingData.email) &&
+          consent
+        );
       default:
         return false;
     }
