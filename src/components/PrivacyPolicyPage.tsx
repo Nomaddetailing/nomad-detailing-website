@@ -222,8 +222,10 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
                     </button>
 
                     {isOpen && (
-                      <div id={`${item.id}-content`} className="px-6 pb-6 text-sm leading-relaxed">
-                        <div className="h-px bg-border mb-4" />
+                      <div
+                        id={`${item.id}-content`}
+                        className="mt-4 rounded-lg bg-background/30 p-4 text-sm leading-relaxed border border-border/50"
+                      >
                         {item.content}
                       </div>
                     )}
