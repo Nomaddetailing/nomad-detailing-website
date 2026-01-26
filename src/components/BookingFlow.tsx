@@ -488,38 +488,45 @@ const submit = async () => {
       <Section>
         <div className="max-w-3xl mx-auto">
           {/* Progress Indicator */}
-          {step !== 'done' && (
+          {step !== "done" && (
             <div className="mb-12">
-              <div className="flex items-center justify-between mb-4">
-                {[0, 1, 2, 3].map((s) => (
-                  <div key={s} className="flex-1">
-                    <div className="flex items-center">
-                      <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-                          s < activeIndex
-                            ? 'bg-primary border-primary text-primary-foreground'
-                            : s === activeIndex
-                            ? 'border-primary text-primary'
-                            : 'border-border text-muted-foreground'
-                        }`}
-                      >
-                        {s < activeIndex ? <CheckCircle2 size={20} /> : s + 1}
-                      </div>
+              {/* 4 fixed columns so circles + labels align perfectly */}
+              <div className="grid grid-cols-4 items-start">
+                {[0, 1, 2, 3].map((s) => {
+                  const isDone = s < activeIndex;
+                  const isActive = s === activeIndex;
+          
+                  return (
+                    <div key={s} className="relative flex flex-col items-center">
+                      {/* Connector line to the next step (drawn from the center of this circle) */}
                       {s < 3 && (
                         <div
-                          className={`flex-1 h-0.5 mx-2 ${
-                            s < activeIndex ? 'bg-primary' : 'bg-border'
+                          className={`absolute top-5 left-1/2 h-0.5 w-full ${
+                            isDone ? "bg-primary" : "bg-border"
                           }`}
                         />
                       )}
+          
+                      {/* Circle */}
+                      <div
+                        className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
+                          isDone
+                            ? "bg-primary border-primary text-primary-foreground"
+                            : isActive
+                            ? "border-primary text-primary"
+                            : "border-border text-muted-foreground"
+                        }`}
+                      >
+                        {isDone ? <CheckCircle2 size={20} /> : s + 1}
+                      </div>
+          
+                      {/* Label (always centered under the circle) */}
+                      <div className="mt-4 text-sm text-muted-foreground text-center">
+                        {["Service", "Vehicle", "Location", "Contact"][s]}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-between text-sm text-muted-foreground">
-                {stepsForProgress.map((label) => (
-                  <span key={label}>{label}</span>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
