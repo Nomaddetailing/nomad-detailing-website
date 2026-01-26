@@ -192,6 +192,8 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
               </button>
             </div>
 
+            <div className="h-6" />
+
             {/* Accordion */}
             <div className="mt-8 space-y-4">
               {items.map((item) => {
