@@ -248,7 +248,7 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
                     document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }, 50);
                 }}
-                className="inline-flex items-center justify-center gap-3 px-8 py-3 min-w-[220px] w-full sm:w-auto rounded-xl bg-[#E6C77A] text-sm font-medium text-black hover:bg-[#F0D48A] transition"
+                className="inline-flex items-center justify-center gap-3 px-8 py-3 min-w-[220px] rounded-xl bg-[#E6C77A] text-sm font-medium text-black hover:bg-[#F0D48A] transition"
               >
                 <span>←</span>
                 <span>Back to Booking</span>
