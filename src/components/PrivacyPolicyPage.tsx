@@ -174,11 +174,14 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
                 At Nomad Detailing, we value and respect your privacy. This Privacy Policy explains how we collect,
                 use, and protect your personal data in accordance with the Personal Data Protection Act 2010 (PDPA).
               </p>
-              <p className="text-xs text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
             </div>
 
-            {/* Controls */}
-            <div className="mt-8 flex items-center justify-center">
+            {/* Meta + Controls */}
+            <div className="mt-6 flex items-center justify-between gap-4">
+              <p className="text-xs text-muted-foreground">
+                Last updated: {new Date().toLocaleDateString()}
+              </p>
+            
               <button
                 type="button"
                 onClick={toggleAll}
