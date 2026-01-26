@@ -21,10 +21,10 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
         title: "1. Personal Data We Collect",
         content: (
           <>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground/90 font-medium italic">
               When you use our services or submit a booking form, we may collect the following information:
             </p>
-            <ul className="mt-4 list-disc pl-6 text-muted-foreground space-y-2">
+            <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4B46A] text-muted-foreground">
               <li>Full name</li>
               <li>Phone number</li>
               <li>Email address</li>
@@ -40,8 +40,8 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
         title: "2. Purpose of Collection",
         content: (
           <>
-            <p className="text-muted-foreground">Your personal data is collected and used for the following purposes:</p>
-            <ul className="mt-4 list-disc pl-6 text-muted-foreground space-y-2">
+            <p className="text-sm text-muted-foreground/90 font-medium italic">Your personal data is collected and used for the following purposes:</p>
+            <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4B46A] text-muted-foreground">
               <li>To process and confirm your booking</li>
               <li>To contact you regarding your appointment</li>
               <li>To provide detailing services at your requested location</li>
@@ -88,8 +88,8 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
         title: "5. Customer Rights",
         content: (
           <>
-            <p className="text-muted-foreground">In accordance with the PDPA, you have the right to:</p>
-            <ul className="mt-4 list-disc pl-6 text-muted-foreground space-y-2">
+            <p className="text-sm text-muted-foreground/90 font-medium italic">In accordance with the PDPA, you have the right to:</p>
+            <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4B46A] text-muted-foreground">
               <li>Access and request a copy of your personal data</li>
               <li>Request correction of inaccurate or outdated information</li>
               <li>Withdraw consent for the use of your personal data (subject to service limitations)</li>
