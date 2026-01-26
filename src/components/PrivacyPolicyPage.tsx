@@ -177,7 +177,7 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
             </div>
 
             {/* Meta + Controls */}
-            <div className="mt-6 flex items-center justify-between gap-4">
+            <div className="mt-6 mb-8 flex items-center justify-between gap-4">
               <p className="text-xs text-muted-foreground">
                 Last updated: {new Date().toLocaleDateString()}
               </p>
@@ -185,7 +185,7 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
               <button
                 type="button"
                 onClick={toggleAll}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background/40 text-sm text-foreground hover:bg-background/60 transition"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 shadow-md shadow-primary/20 transition"
               >
                 {allExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 {allExpanded ? "Collapse all" : "Expand all"}
@@ -231,7 +231,7 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
             </div>
 
             {/* Bottom CTA */}
-            <div className="mt-10 flex justify-center">
+            <div className="mt-12 pt-4 flex justify-center">
               <button
                 type="button"
                 onClick={() => {
@@ -244,7 +244,7 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
                     document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }, 50);
                 }}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-border bg-background/40 text-sm text-foreground hover:bg-background/60 transition"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground text-sm hover:bg-primary/90 shadow-md shadow-primary/20 transition"
               >
                 <span>←</span>
                 <span>Back to Booking</span>
