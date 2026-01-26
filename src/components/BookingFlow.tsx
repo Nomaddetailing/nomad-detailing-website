@@ -516,9 +516,11 @@ const submit = async () => {
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="grid grid-cols-4 text-sm text-muted-foreground">
                 {stepsForProgress.map((label) => (
-                  <span key={label}>{label}</span>
+                  <div key={label} className="text-center">
+                    {label}
+                  </div>
                 ))}
               </div>
             </div>
