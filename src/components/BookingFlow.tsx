@@ -123,6 +123,37 @@ function prettyServiceLabel(data: BookingData) {
   return all.find((s) => s.value === data.service)?.title ?? data.service;
 }
 
+//begin of storage helper block for form memory for back to booking button in privacy policy / terms & condition
+const BOOKING_STORAGE_KEY = "booking:state:v1";
+
+type PersistedBookingState = {
+  step: FlowStep;
+  bookingData: BookingData;
+  consent: boolean;
+  returnAnchorId?: string;
+  savedAt: string; // for debugging / optional expiry
+};
+
+function saveBookingState(state: PersistedBookingState) {
+  sessionStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(state));
+}
+
+function readBookingState(): PersistedBookingState | null {
+  const raw = sessionStorage.getItem(BOOKING_STORAGE_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as PersistedBookingState;
+  } catch {
+    return null;
+  }
+}
+
+function clearBookingState() {
+  sessionStorage.removeItem(BOOKING_STORAGE_KEY);
+}
+
+//end of storage helper block for form memory for back to booking button in privacy policy / terms & condition
 export function BookingFlow({ onNavigate, preset }: BookingFlowProps) {
   const [step, setStep] = useState<FlowStep>('category');
   const [phoneTouched, setPhoneTouched] = useState(false); //whatsapp phone validation
@@ -165,43 +196,69 @@ areaOther: "",
           a.toLowerCase().includes(areaQuery.toLowerCase())
         );
 
+//begin restoring saved form state functions
+  useEffect(() => {
+  const saved = readBookingState();
+  if (!saved) return;
+
+  // Restore step + data + consent
+  setStep(saved.step);
+  setBookingData(saved.bookingData);
+  setConsent(saved.consent);
+
+  // Scroll to anchor if provided
+  const anchor = saved.returnAnchorId;
+  if (anchor) {
+    setTimeout(() => {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+
+  // Optional: clear it after restoring so it doesn't keep forcing contact step forever
+  clearBookingState();
+}, []);
+  //end of restoring form saved state functions
+  
   // Initialize from entry preset.
   useEffect(() => {
+    // If we have a saved restore state, do NOT override it.
+    // (We already restored it in the mount effect.)
+    const saved = readBookingState();
+    if (saved) return;
+  
     if (!preset) {
-      setStep('category');
+      setStep("category");
       return;
     }
-
-    // Corporate/Fleet should not use consumer booking.
-    if (preset.category === 'corporate') {
-      onNavigate('fleet');
+  
+    if (preset.category === "corporate") {
+      onNavigate("fleet");
       return;
     }
-
-    const initialCategory = (preset.category === 'premium' || preset.category === 'maintenance')
-      ? (preset.category as ServiceCategory)
-      : null;
-
+  
+    const initialCategory =
+      preset.category === "premium" || preset.category === "maintenance"
+        ? (preset.category as ServiceCategory)
+        : null;
+  
     setBookingData((prev) => ({
       ...prev,
       category: initialCategory,
       service: preset.service ?? prev.service,
       variant: preset.variant ?? prev.variant,
     }));
-
-    // If a specific service is pre-selected, jump straight to Vehicle Details.
+  
     if (preset.service) {
-      setStep('vehicle');
+      setStep("vehicle");
       return;
     }
-
-    // If only category is selected, go to services within that category.
+  
     if (initialCategory) {
-      setStep('service');
+      setStep("service");
       return;
     }
-
-    setStep('category');
+  
+    setStep("category");
   }, [preset, onNavigate]);
 
   const update = (field: keyof BookingData, value: string) => {
@@ -952,17 +1009,40 @@ const submit = async () => {
                   I agree to the{" "}
                   <button
                     type="button"
-                    onClick={() => onNavigate("privacy", undefined, { returnTo: "booking", returnAnchorId: "booking-consent" })}
+                    onClick={() => {
+                    saveBookingState({
+                    step: "contact",
+                    bookingData,
+                    consent,
+                    returnAnchorId: "booking-consent",
+                    savedAt: new Date().toISOString(),
+                    });
+                    
+                    
+                    // IMPORTANT: use the actual page keys you use in App.tsx
+                    onNavigate("privacy-policy");
+                    }}
                     className="underline hover:text-foreground"
-                  >
+                    >
                     Privacy Policy
                   </button>{" "}
                   and{" "}
                   <button
                     type="button"
-                    onClick={() => onNavigate("terms", undefined, { returnTo: "booking", returnAnchorId: "booking-consent" })}
+                    onClick={() => {
+                    saveBookingState({
+                    step: "contact",
+                    bookingData,
+                    consent,
+                    returnAnchorId: "booking-consent",
+                    savedAt: new Date().toISOString(),
+                    });
+                    
+                    
+                    onNavigate("terms");
+                    }}
                     className="underline hover:text-foreground"
-                  >
+                    >
                     Terms & Conditions
                   </button>
                   , and consent to Nomad Detailing contacting me via WhatsApp regarding my booking.
