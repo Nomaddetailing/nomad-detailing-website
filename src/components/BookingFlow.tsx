@@ -488,40 +488,43 @@ const submit = async () => {
       <Section>
         <div className="max-w-3xl mx-auto">
           {/* Progress Indicator */}
-          {step !== 'done' && (
+          {step !== "done" && (
             <div className="mb-12">
-              <div className="flex items-center justify-between mb-4">
-                {[0, 1, 2, 3].map((s) => (
-                  <div key={s} className="flex-1">
-                    <div className="flex items-center">
+              {/* Line behind circles */}
+              <div className="relative">
+                {/* base line */}
+                <div className="absolute left-5 right-5 top-5 h-0.5 bg-border" />
+          
+                {/* progress line (fills as you advance) */}
+                <div
+                  className="absolute left-5 right-5 top-5 h-0.5 bg-primary origin-left"
+                  style={{
+                    transform: `scaleX(${Math.min(activeIndex, 3) / 3})`,
+                  }}
+                />
+          
+                {/* Steps (circle + label in same column) */}
+                <div className="relative flex items-start">
+                  {[0, 1, 2, 3].map((s) => (
+                    <div key={s} className="flex-1 flex flex-col items-center text-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
+                        className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
                           s < activeIndex
-                            ? 'bg-primary border-primary text-primary-foreground'
+                            ? "bg-primary border-primary text-primary-foreground"
                             : s === activeIndex
-                            ? 'border-primary text-primary'
-                            : 'border-border text-muted-foreground'
+                            ? "border-primary text-primary"
+                            : "border-border text-muted-foreground"
                         }`}
                       >
                         {s < activeIndex ? <CheckCircle2 size={20} /> : s + 1}
                       </div>
-                      {s < 3 && (
-                        <div
-                          className={`flex-1 h-0.5 mx-2 ${
-                            s < activeIndex ? 'bg-primary' : 'bg-border'
-                          }`}
-                        />
-                      )}
+          
+                      <div className="mt-3 text-sm text-muted-foreground">
+                        {stepsForProgress[s]}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-4 text-sm text-muted-foreground">
-                {stepsForProgress.map((label) => (
-                  <div key={label} className="text-center">
-                    {label}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
