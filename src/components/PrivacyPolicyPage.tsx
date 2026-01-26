@@ -17,44 +17,23 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
   const items: Item[] = useMemo(
     () => [
       {
-        <div
-          className={cn(
-            "rounded-xl border transition-all",
-            isOpen
-              ? "border-primary/40 bg-card/40 shadow-sm"
-              : "border-border hover:border-border/80"
-          )}
-        >
-          {/* Header */}
-          <button
-            type="button"
-            onClick={toggle}
-            className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left"
-          >
-            <h3 className="text-base font-medium">
-              1. Personal Data We Collect
-            </h3>
-            {isOpen ? <ChevronUp /> : <ChevronDown />}
-          </button>
-        
-          {/* Content */}
-          {isOpen && (
-            <div className="px-6 pb-6 text-sm text-muted-foreground space-y-4">
-              {/* section content here */}
-                    <p className="text-muted-foreground">
-                      When you use our services or submit a booking form, we may collect the following information:
-                    </p>
-                    <ul className="mt-4 list-disc pl-6 text-muted-foreground space-y-2">
-                      <li>Full name</li>
-                      <li>Phone number</li>
-                      <li>Email address</li>
-                      <li>Residential address or service location</li>
-                      <li>Vehicle information (type, condition, service requested)</li>
-                      <li>Payment information (payment method or uploaded receipts)</li>
-                    </ul>
-            </div>
-          )}
-        </div>
+        id: "pp-collect",
+        title: "1. Personal Data We Collect",
+        content: (
+          <>
+            <p className="text-muted-foreground">
+              When you use our services or submit a booking form, we may collect the following information:
+            </p>
+            <ul className="mt-4 list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Full name</li>
+              <li>Phone number</li>
+              <li>Email address</li>
+              <li>Residential address or service location</li>
+              <li>Vehicle information (type, condition, service requested)</li>
+              <li>Payment information (payment method or uploaded receipts)</li>
+            </ul>
+          </>
+        ),
       },
       {
         id: "pp-purpose",
@@ -214,15 +193,23 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
             </div>
 
             {/* Accordion */}
-            <div className="mt-8 divide-y divide-border">
+            <div className="mt-8 space-y-4">
               {items.map((item) => {
                 const isOpen = openIds.has(item.id);
                 return (
-                  <div key={item.id} className="py-5">
+                  <div
+                    key={item.id}
+                    className={[
+                      "rounded-xl border transition-all",
+                      isOpen
+                        ? "border-primary/40 bg-background/40 shadow-sm shadow-black/20"
+                        : "border-border bg-transparent hover:border-border/80",
+                    ].join(" ")}
+                  >
                     <button
                       type="button"
                       onClick={() => toggleOne(item.id)}
-                      className="w-full flex items-center justify-between gap-4 text-left"
+                      className="w-full flex items-center justify-between gap-4 text-left px-6 py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-xl"
                       aria-expanded={isOpen}
                       aria-controls={`${item.id}-content`}
                     >
@@ -233,7 +220,8 @@ export function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps) {
                     </button>
 
                     {isOpen && (
-                      <div id={`${item.id}-content`} className="mt-4 text-sm leading-relaxed">
+                      <div id={`${item.id}-content`} className="px-6 pb-6 text-sm leading-relaxed">
+                        <div className="h-px bg-border mb-4" />
                         {item.content}
                       </div>
                     )}
