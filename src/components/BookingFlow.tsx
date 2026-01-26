@@ -490,25 +490,24 @@ const submit = async () => {
           {/* Progress Indicator */}
           {step !== "done" && (
             <div className="mb-12">
-              {/* Line behind circles */}
               <div className="relative">
-                {/* base line */}
-                <div className="absolute left-5 right-5 top-5 h-0.5 bg-border" />
+                {/* Base line */}
+                <div className="absolute left-5 right-5 top-5 h-[2px] bg-border" />
           
-                {/* progress line (fills as you advance) */}
+                {/* Active progress line */}
                 <div
-                  className="absolute left-5 right-5 top-5 h-0.5 bg-primary origin-left"
+                  className="absolute left-5 top-5 h-[2px] bg-primary transition-all duration-300"
                   style={{
-                    transform: `scaleX(${Math.min(activeIndex, 3) / 3})`,
+                    width: `${(activeIndex / 3) * 100}%`,
                   }}
                 />
           
-                {/* Steps (circle + label in same column) */}
-                <div className="relative flex items-start">
+                {/* Steps */}
+                <div className="relative flex">
                   {[0, 1, 2, 3].map((s) => (
                     <div key={s} className="flex-1 flex flex-col items-center text-center">
                       <div
-                        className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
+                        className={`z-10 w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
                           s < activeIndex
                             ? "bg-primary border-primary text-primary-foreground"
                             : s === activeIndex
