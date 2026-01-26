@@ -490,25 +490,24 @@ const submit = async () => {
           {/* Progress Indicator */}
           {step !== "done" && (
             <div className="mb-12">
-              {/* Track + Steps */}
               <div className="relative">
-                {/* Base track (full width) */}
+                {/* Base track (behind circles) */}
                 <div
-                  className="absolute left-0 right-0 h-0.5 bg-border"
-                  style={{ top: 20 }} // aligns to center of 40px circles
+                  className="absolute left-0 right-0 h-0.5 bg-border z-0"
+                  style={{ top: 20 }}
                 />
           
-                {/* Filled track (progress) */}
+                {/* Filled track (behind circles) */}
                 <div
-                  className="absolute left-0 h-0.5 bg-primary transition-all"
+                  className="absolute left-0 h-0.5 bg-primary transition-all z-0"
                   style={{
                     top: 20,
-                    width: `${(Math.min(activeIndex, 3) / 3) * 100}%`, // 0..100
+                    width: `${(Math.min(activeIndex, 3) / 3) * 100}%`,
                   }}
                 />
           
                 {/* Steps */}
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between relative z-10">
                   {[0, 1, 2, 3].map((s) => {
                     const isDone = s < activeIndex;
                     const isActive = s === activeIndex;
@@ -516,7 +515,7 @@ const submit = async () => {
                     return (
                       <div key={s} className="flex flex-col items-center">
                         <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
+                          className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all bg-background ${
                             isDone
                               ? "bg-primary border-primary text-primary-foreground"
                               : isActive
@@ -527,7 +526,6 @@ const submit = async () => {
                           {isDone ? <CheckCircle2 size={20} /> : s + 1}
                         </div>
           
-                        {/* Label directly under circle */}
                         <div className="mt-3 text-sm text-muted-foreground text-center">
                           {stepsForProgress[s]}
                         </div>
