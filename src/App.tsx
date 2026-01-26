@@ -14,7 +14,7 @@ import { ScrollToTop } from "./components/ui/ScrollToTop";
 import { PrivacyPolicyPage } from "./components/PrivacyPolicyPage";
 import { TermsPage } from "./components/TermsPage";
 
-
+//page names for navigating to it 
 type Page =
   | "home"
   | "services"
