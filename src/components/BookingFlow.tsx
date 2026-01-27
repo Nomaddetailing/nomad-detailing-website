@@ -487,55 +487,70 @@ const submit = async () => {
     <div className="bg-background min-h-screen">
       <Section>
         <div className="max-w-3xl mx-auto">
-          {/* Progress Indicator */}
+          {/* Progress Indicator (segmented connectors that touch circle borders) */}
           {step !== "done" && (
-            <div className="mb-12">
-              <div className="relative">
-                {/* Base track (behind circles) */}
+          <div className="mb-12">
+            <div className="flex items-start justify-between">
+              {[0, 1, 2, 3].map((s) => {
+                const isDone = s < activeIndex;
+                const isActive = s === activeIndex;
+          
+          
+                // Segment between this node and the next node
+                const segFilled = s < activeIndex - 1; // fully filled
+                const segActive = s === activeIndex - 1; // partially filled (optional)
+          
+          
+                return (
+                <div key={s} className="flex-1">
+                {/* Node row (circle + connector to next) */}
+                <div className="flex items-center">
+                {/* Circle */}
                 <div
-                  className="absolute left-0 right-0 h-0.5 bg-border z-0"
-                  style={{ top: 20 }}
-                />
-          
-                {/* Filled track (behind circles) */}
-                <div
-                  className="absolute left-0 h-0.5 bg-primary transition-all z-0"
-                  style={{
-                    top: 20,
-                    width: `${(Math.min(activeIndex, 3) / 3) * 100}%`,
-                  }}
-                />
-          
-                {/* Steps */}
-                <div className="flex items-start justify-between relative z-10">
-                  {[0, 1, 2, 3].map((s) => {
-                    const isDone = s < activeIndex;
-                    const isActive = s === activeIndex;
-          
-                    return (
-                      <div key={s} className="flex flex-col items-center">
-                        <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all bg-background ${
-                            isDone
-                              ? "bg-primary border-primary text-primary-foreground"
-                              : isActive
-                              ? "border-primary text-primary"
-                              : "border-border text-muted-foreground"
-                          }`}
-                        >
-                          {isDone ? <CheckCircle2 size={20} /> : s + 1}
-                        </div>
-          
-                        <div className="mt-3 text-sm text-muted-foreground text-center">
-                          {stepsForProgress[s]}
-                        </div>
-                      </div>
-                    );
-                  })}
+                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all shrink-0 ${
+                isDone
+                ? "bg-primary border-primary text-primary-foreground"
+                : isActive
+                ? "border-primary text-primary"
+                : "border-border text-muted-foreground"
+                }`}
+                >
+                {isDone ? <CheckCircle2 size={20} /> : s + 1}
                 </div>
-              </div>
-            </div>
+          
+          
+                {/* Connector (touches circle border) */}
+                {s < 3 && (
+                <div className="relative flex-1 h-0.5 mx-0">
+                {/* Base segment */}
+                <div className="absolute inset-0 bg-border" />
+          
+          
+          {/* Filled segment */}
+          {(segFilled || segActive) && (
+          <div
+          className="absolute inset-y-0 left-0 bg-primary transition-all"
+          style={{
+          width: segFilled ? "100%" : segActive ? "50%" : "0%",
+          }}
+          />
           )}
+          </div>
+          )}
+          </div>
+          
+          
+          {/* Label directly under the circle (not under the line) */}
+          <div className="mt-3 text-sm text-muted-foreground">
+          {stepsForProgress[s]}
+          </div>
+          </div>
+          );
+          })}
+          </div>
+          </div>
+          )}
+          {/*progress indicator end*/}
 
           {/* Step: Category Selection (only if no category preset) */}
           {step === 'category' && (
