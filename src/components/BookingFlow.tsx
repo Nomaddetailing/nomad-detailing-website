@@ -490,7 +490,7 @@ const submit = async () => {
           {/* Progress Indicator (segmented connectors that touch circle borders) */}
           {step !== "done" && (
           <div className="mb-12">
-            <div className="flex items-start justify-between">
+            <div className="relative">
               {[0, 1, 2, 3].map((s) => {
                 const isDone = s < activeIndex;
                 const isActive = s === activeIndex;
