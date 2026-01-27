@@ -25,26 +25,13 @@ if (!scriptUrl || !token) {
   });
 }
 
-// TEMP DEBUG (remove later)
 if (req.query.debug === "1") {
   return res.status(200).json({
     ok: true,
-    usingScriptUrl: scriptUrl,
-    tokenPrefix: token.slice(0, 6) + "..."
+    usingScriptUrl: process.env.GSHEET_WEBAPP_URL,
+    hasToken: !!process.env.GSHEET_API_TOKEN
   });
 }
-
-  if (!scriptUrl || !token) {
-    return res.status(500).json({
-      ok: false,
-      error: "Missing GSHEET_WEBAPP_URL or GSHEET_API_TOKEN",
-    });
-  }
-
-  const body = req.body;
-  if (!body || typeof body !== "object") {
-    return res.status(400).json({ ok: false, error: "Invalid JSON body" });
-  }
 
   // Expect: { table: "...", data: {...} }
   if (!body.table || !body.data) {
