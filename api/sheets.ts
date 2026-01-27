@@ -11,8 +11,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
+  
+
   const scriptUrl = process.env.GSHEET_WEBAPP_URL;
-  const token = process.env.GSHEET_API_TOKEN;
+const token = process.env.GSHEET_API_TOKEN;
+
+if (!scriptUrl || !token) {
+  return res.status(500).json({
+    ok: false,
+    error: "Missing env vars",
+    hasScriptUrl: !!scriptUrl,
+    hasToken: !!token
+  });
+}
+
+// TEMP DEBUG (remove later)
+if (req.query.debug === "1") {
+  return res.status(200).json({
+    ok: true,
+    usingScriptUrl: scriptUrl,
+    tokenPrefix: token.slice(0, 6) + "..."
+  });
+}
 
   if (!scriptUrl || !token) {
     return res.status(500).json({
