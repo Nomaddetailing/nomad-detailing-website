@@ -487,70 +487,48 @@ const submit = async () => {
     <div className="bg-background min-h-screen">
       <Section>
         <div className="max-w-3xl mx-auto">
-          {/* Progress Indicator (segmented connectors that touch circle borders) */}
+          {/* Progress Indicator */}
           {step !== "done" && (
-          <div className="mb-12">
-            <div className="flex items-start justify-between">
-              {[0, 1, 2, 3].map((s) => {
-                const isDone = s < activeIndex;
-                const isActive = s === activeIndex;
+            <div className="mb-12">
+              {/* Circles + connecting lines (single track) */}
+              <div className="flex items-center">
+                {[0, 1, 2, 3].map((s) => (
+                  <React.Fragment key={s}>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all shrink-0 ${
+                        s < activeIndex
+                          ? "bg-primary border-primary text-primary-foreground"
+                          : s === activeIndex
+                          ? "border-primary text-primary"
+                          : "border-border text-muted-foreground"
+                      }`}
+                    >
+                      {s < activeIndex ? <CheckCircle2 size={20} /> : s + 1}
+                    </div>
           
+                    {/* Line touches circle border: no margin */}
+                    {s < 3 && (
+                      <div
+                        className={`h-0.5 flex-1 ${
+                          s < activeIndex ? "bg-primary" : "bg-border"
+                        }`}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
           
-                // Segment between this node and the next node
-                const segFilled = s < activeIndex - 1; // fully filled
-                const segActive = s === activeIndex - 1; // partially filled (optional)
-          
-          
-                return (
-                <div key={s} className="flex-1">
-                {/* Node row (circle + connector to next) */}
-                <div className="flex items-center">
-                {/* Circle */}
-                <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all shrink-0 ${
-                isDone
-                ? "bg-primary border-primary text-primary-foreground"
-                : isActive
-                ? "border-primary text-primary"
-                : "border-border text-muted-foreground"
-                }`}
-                >
-                {isDone ? <CheckCircle2 size={20} /> : s + 1}
-                </div>
-          
-          
-                {/* Connector (touches circle border) */}
-                {s < 3 && (
-                <div className="relative flex-1 h-0.5 mx-0">
-                {/* Base segment */}
-                <div className="absolute inset-0 bg-border" />
-          
-          
-          {/* Filled segment */}
-          {(segFilled || segActive) && (
-          <div
-          className="absolute inset-y-0 left-0 bg-primary transition-all"
-          style={{
-          width: segFilled ? "100%" : segActive ? "50%" : "0%",
-          }}
-          />
+              {/* Labels aligned under circles using same track spacing */}
+              <div className="mt-4 flex items-start text-sm text-muted-foreground">
+                {stepsForProgress.map((label, i) => (
+                  <React.Fragment key={label}>
+                    <div className="w-10 text-center">{label}</div>
+                    {i < stepsForProgress.length - 1 && <div className="flex-1" />}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
           )}
-          </div>
-          )}
-          </div>
-          
-          
-          {/* Label directly under the circle (not under the line) */}
-          <div className="mt-3 text-sm text-muted-foreground">
-          {stepsForProgress[s]}
-          </div>
-          </div>
-          );
-          })}
-          </div>
-          </div>
-          )}
-          {/*progress indicator end*/}
 
           {/* Step: Category Selection (only if no category preset) */}
           {step === 'category' && (
