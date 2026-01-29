@@ -7,7 +7,7 @@ import { ProcessStep } from './ui/ProcessStep';
 import { Section } from './ui/Section';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import type { BookingPreset } from '../App';
-
+//homepage
 interface HomePageProps {
   onNavigate: (page: any, preset?: BookingPreset) => void;
 }
